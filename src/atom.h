@@ -1,6 +1,5 @@
 #include <cmath>
 
-
 class Atom {
     public:
         float coeff;
