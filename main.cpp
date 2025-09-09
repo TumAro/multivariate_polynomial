@@ -1,5 +1,6 @@
 #include <iostream>
 #include "src/atom.h"
+#include "src/particle.h"
 
 int main() {
     Atom a(3, 'x', 2);
