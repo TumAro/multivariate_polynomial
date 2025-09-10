@@ -1,0 +1,4 @@
+*.py
+.vscode
+.env
+.env.*
