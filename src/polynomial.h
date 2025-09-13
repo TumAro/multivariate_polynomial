@@ -51,4 +51,41 @@ class Polynomial {
         return P;
     }
 
+    // * Overload * Operator -> P = P1*P2
+    Polynomial operator*(const Polynomial& P2) {
+        Polynomial P;
+
+        for (int i = 0; i < this->polynom.size(); i++) {
+            for (int j = 0; j < P2.polynom.size(); j++) {
+                Polynomial temp;
+                temp.addParticle(this->polynom[i] * P2.polynom[j]);
+                P = P + temp;
+            }
+        }
+
+        return P;
+    }
+
+    void print() {
+        for (int i = 0; i< polynom.size(); i++) {
+            Particle p = polynom[i];
+
+            if ( i > 0 && p.coefficient > 0) {
+                std::cout << " + ";
+            }
+
+            std::cout << p.coefficient;
+
+            for (auto pair : p.variables) {
+                if (pair.second !=0) {
+                        std::cout << pair.first;
+                    if (pair.second != 1) {
+                        std::cout << "^" << pair.second;
+                    }
+                }
+            }
+        }
+        std::cout << std::endl;
+    }
+
 };

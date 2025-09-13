@@ -22,9 +22,12 @@ int main() {
     P2.addParticle(p4);
 
     // testing sum -> (x+1) + (2x+3) = 3x+4
-    Polynomial P = P1 + P2;
+    // Polynomial P = P1 + P2;
 
-    std::cout << P.eval({{'x', 1}, {'y', 1}}) <<std::endl;
+    // testing mult -> (x+1) * (2x+3) = 2x^2 + 5x + 3
+    Polynomial P = P2 * P2;
+
+    P.print();
 
 
     return 0;
