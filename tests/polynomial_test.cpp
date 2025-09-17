@@ -25,7 +25,7 @@ int main() {
     // Polynomial P = P1 + P2;
 
     // testing mult -> (x+1) * (2x+3) = 2x^2 + 5x + 3
-    Polynomial P = P2 * P2;
+    Polynomial P = P1 * P2;
 
     P.print();
 
