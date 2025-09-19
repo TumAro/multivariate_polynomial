@@ -133,9 +133,16 @@ class Particle {
             if (map1 == map2) {
                 float coeff = this->coefficient + p2.coefficient;
 
-                p.coefficient = coeff;
-                p.variables = map1;
-
+                int i = 0;
+                for (const auto& pair : map1) {
+                    p.addAtom(Atom(
+                        i == 0 ? coeff : 1,
+                        pair.first,
+                        pair.second
+                    ));
+                    i++;
+                }
+                
                 return p;
             } else {
                 Particle p;

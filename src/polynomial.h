@@ -94,7 +94,7 @@ class Polynomial {
         return P;
     }
 
-    // * Overload / Operator -> P = Q*D + R
+    // * Overload / Operator -> P = Q*D + R -> Q
     Polynomial operator/(const Polynomial& divisor) {
         std::cout << "Division started!" << std::endl;
         Polynomial Q;           // Q = 0 -> Quotient
@@ -106,9 +106,6 @@ class Polynomial {
         D.sortLexicographic();
 
         while (P.polynom.size() > 0) {
-            // std::cout << "P size: " << P.polynom.size() << std::endl;
-            // std::cout << "Leading term: ";
-            // P.print();
 
             Particle leadP = P.polynom[0];
             Particle leadD = D.polynom[0];
@@ -129,22 +126,60 @@ class Polynomial {
                 Q = Q + q;
                 P = P - (q * D);
             } else {
-
-                // std::cout << "BEFORE subtraction - P size: " << P.polynom.size() << std::endl;
-
                 Polynomial leadTerm;
                 leadTerm.addParticle(leadP);
                 R = R + leadTerm;
                 P = P - leadTerm;
-
-                // std::cout << "AFTER subtraction - P size: " << P.polynom.size() << std::endl;
-                // std::cout << "leadTerm was: ";
-                // leadTerm.print();
             }
             
         }
 
         return Q;
+    }
+
+    // * Overload % Operator -> P = Q*D + R -> R
+    Polynomial operator%(const Polynomial& divisor) {
+        std::cout << "Division started!" << std::endl;
+        Polynomial Q;           // Q = 0 -> Quotient
+        Polynomial R;           // R = 0 -> Remainder
+        Polynomial P = *this;   // P -> copy of this polynom
+        Polynomial D = divisor; // D -> copy of divisor
+
+        P.sortLexicographic();
+        D.sortLexicographic();
+
+        while (P.polynom.size() > 0) {
+
+            Particle leadP = P.polynom[0];
+            Particle leadD = D.polynom[0];
+            bool divisible = true;
+
+            for (const auto& pair : leadD.variables) {
+                char var = pair.first;
+                if (leadP.variables.count(var) > 0) {
+                    divisible = leadP.variables[var] >= pair.second;
+                } else { divisible = false; }
+
+                if (!divisible) {break;}
+            }
+
+            if (divisible) {
+                Polynomial q;
+                q.addParticle(leadP / leadD);
+                Q = Q + q;
+                P = P - (q * D);
+
+            } else {
+                Polynomial leadTerm;
+                leadTerm.addParticle(leadP);
+                R = R + leadTerm;
+                P = P - leadTerm;
+
+            }
+            
+        }
+
+        return R;
     }
 
     void print() {
