@@ -12,5 +12,16 @@ class Atom {
         float eval(float x) {
             return coeff * std::pow(x, exp);
         }
+
+        // * Overload / operator, A = a / b
+        Atom operator/(const Atom& b) {
+            float coeff = this->coeff / b.coeff;
+            float exp = this->exp - b.exp;
+
+            if (this->var == b.var) {
+                return Atom(coeff, this->var, exp);
+            }
+            return Atom();
+        }
 };
 

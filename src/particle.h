@@ -7,7 +7,7 @@ class Particle {
         std::vector<Atom> atoms;
 
         float coefficient;
-        std::map<char, int> variables;
+        std::map<char, float> variables;
 
         Particle() : coefficient(1) {}
 
@@ -44,6 +44,39 @@ class Particle {
             }
             
             return ans;
+        }
+
+        std::vector<float> getExpVec() const { 
+            std::vector<float> expVec;
+
+            for (const auto& pair : this->variables) {
+                expVec.push_back(pair.second);
+            }
+
+            return expVec;
+        }
+
+        bool isLexGreater(const Particle& p2) const {
+            std::vector<float> V = this->getExpVec();
+            std::vector<float> W = p2.getExpVec();
+
+            std::vector<float> resultant;
+
+            int maxLen = std::max(V.size(), W.size());
+
+            for (int i = 0; i < maxLen; i++) {
+                float v = (i < V.size()) ? V[i] : 0;
+                float w = (i < W.size()) ? W[i] : 0;
+
+                resultant.push_back(v - w);
+            }
+
+            for (int i = 0; i < resultant.size(); i++) {
+                if (resultant[i] != 0) {
+                    return resultant[i] > 0;
+                }
+            }
+            return false;
         }
 
         // * Overload * operator -> p = p1 * p2
@@ -91,26 +124,54 @@ class Particle {
         Particle operator+(const Particle& p2) {
             Particle p;
             
-            std::map<char, int> map1 = this->variables;
-            std::map<char, int> map2 = p2.variables;
+            std::map<char, float> map1 = this->variables;
+            std::map<char, float> map2 = p2.variables;
 
             if (map1 == map2) {
                 float coeff = this->coefficient + p2.coefficient;
 
-                int i = 0;
-                for (auto pair : map1){
-                    p.addAtom(
-                        Atom(i == 0 ? coeff : 1, pair.first, pair.second)
-                    );
-                    i++;
-                }
+                p.coefficient = coeff;
+                p.variables = map1;
 
                 return p;
             } else {
-                return Particle();
+                Particle p;
+                p.coefficient = 0;
+                return p;
             }
         }
 
+        // * Overload / operator -> p = p1 / p2
+        Particle operator/(const Particle& p2) {
+            std::map<char, float> vars;
+            
+            float coeff = this->coefficient / p2.coefficient;
 
+            for (const auto& pair: this->variables) {
+                char var = pair.first;
+                float exp1 = pair.second;
+                float exp2 = (p2.variables.count(var) > 0) ? p2.variables.at(var) : 0;
+                vars[var] = exp1 - exp2;
+            }
 
+            for (const auto& pair : p2.variables) {
+                char var = pair.first;
+                if (this->variables.count(var) == 0) {
+                    vars[var] = 0 - pair.second;
+                }
+            }
+
+            Particle p;
+            int i = 0;
+            for (const auto pair: vars) {
+                p.addAtom(Atom(
+                    i == 0 ? coeff : 1,
+                    pair.first,
+                    pair.second
+                ));
+                i++;
+            }
+
+            return p;
+        }
 };
