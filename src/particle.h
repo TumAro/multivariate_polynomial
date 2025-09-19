@@ -23,6 +23,9 @@ class Particle {
             for (int i = 0; i < atoms.size(); i++) {
                 Atom atom = atoms[i];
                 char var = atom.var;
+                if (atom.exp == 0) {
+                    var = '@';
+                }
 
                 coefficient *= atom.coeff;
                 
