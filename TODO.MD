@@ -1,7 +1,6 @@
 ## Current Task
 
 **ATOMS**
-- [ ] evaluate atoms
 - [ ] multiplicative inverse
 - [ ] equality test
 
@@ -9,7 +8,7 @@
 - [ ] multiply by atom
 - [ ] divide by atom
 - [ ] structural equality
-- [ ] normalise?
+
 
 **Polynom**
 - [ ] Multiply by particle (distributive)
@@ -17,9 +16,10 @@
 
 
 ## LATER
-[ ] - list of coefficient to polynomial
-[ ] - Determinants
-[ ] - Kronecker mult (if speed)
-[ ] - Growbner basis operation
-[ ] - Lin Transform
-[ ] - Resultant of Polynomials
+
+[ ] - list of coefficient to polynomial  
+[ ] - Determinants  
+[ ] - Kronecker mult (if speed)  
+[ ] - Growbner basis operation  
+[ ] - Lin Transform  
+[ ] - Resultant of Polynomials  
