@@ -123,6 +123,18 @@ class Particle {
             return p;
         }
 
+        Particle operator*(const Atom& a2) {
+            Particle p = *this;
+            p.addAtom(a2);
+            return p;
+        }
+
+        Particle operator*(float b) {
+            Particle p = *this;
+            p.coefficient *= b;
+            return p;
+        }
+
         // * Overload + operator -> p = p1 + p2
         Particle operator+(const Particle& p2) {
             Particle p;
@@ -184,4 +196,59 @@ class Particle {
 
             return p;
         }
+
+        Particle operator/(const Atom&a2) {
+            Particle p = *this;
+            Atom inv = 1 / a2;
+
+            p.addAtom(inv);
+            return p;
+        }
+
+        Particle operator/(float b) {
+            Particle p = *this;
+            p.coefficient /= b;
+            return p;
+        }
+
+        // * Overload == operator (p1==p2)
+        bool operator==(const Particle& p2) {
+            if (
+                this->coefficient != p2.coefficient ||
+                this->variables != p2.variables 
+            ) { return false; }
+
+            return true;
+        }
+
+        // * Overload unary negeion -p
+        Particle operator-() {
+            Particle p = *this;
+            p.coefficient = -p.coefficient;
+            return p;
+        }
 };
+
+Particle operator*(const Atom&a1, const Particle&p2) {
+    Particle p = p2;
+    p.addAtom(a1);
+    return p;
+}
+
+Particle operator*(float a, const Particle&p2) {
+    Particle p = p2;
+    p.coefficient *= a;
+    return p;
+}
+
+Particle operator/(float a, const Particle&p2) {
+    Particle numerator;
+    numerator.coefficient = a;
+    return numerator / p2;
+}
+
+Particle operator/(const Atom&a1, const Particle&p2) {
+    Particle p = 1 / p2;
+    p.addAtom(a1);
+    return p;
+}

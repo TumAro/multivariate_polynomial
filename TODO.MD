@@ -1,16 +1,23 @@
 ## Current Task
 
 **ATOMS**
-- [ ] multiplicative inverse
-- [ ] equality test
+- [x] multiplicative inverse
+- [x] equality test
+- [x] mult operator
+
 
 **Particle**
-- [ ] multiply by atom
-- [ ] divide by atom
-- [ ] structural equality
+- [x] multiply by atom
+- [x] divide by atom
+- [x] structural equality
+- [x] negate operation (unary)
 
 
 **Polynom**
+- [ ] Polyom * particle
+- [ ] Polynom + particle
+- [ ] Polynom - particle
+- [ ] POlynom -> degree, leading term
 - [ ] Multiply by particle (distributive)
 - [ ] partial evaluation (substitue some vars)
 

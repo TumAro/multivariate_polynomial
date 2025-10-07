@@ -69,7 +69,7 @@ class Polynomial {
         Polynomial result = *this;
 
         for (const auto& p : P2.polynom) {
-            Particle negP = p;
+            Particle negP = -p;
             negP.coefficient = -p.coefficient;
 
             Polynomial temp;
@@ -85,9 +85,7 @@ class Polynomial {
 
         for (int i = 0; i < this->polynom.size(); i++) {
             for (int j = 0; j < P2.polynom.size(); j++) {
-                Polynomial temp;
-                temp.addParticle(this->polynom[i] * P2.polynom[j]);
-                P = P + temp;
+                P = P + (this->polynom[i] * P2.polynom[j]);
             }
         }
 

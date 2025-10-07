@@ -1,4 +1,5 @@
 #include <cmath>
+#include <stdexcept>
 
 class Atom {
     public:
@@ -23,5 +24,55 @@ class Atom {
             }
             return Atom();
         }
+
+        Atom operator/(float b) {
+            return Atom(this->coeff / b, this->var, this->exp);
+        }
+
+        // * Overload == operator (a == b)
+        bool operator==(const Atom& b) {
+            if (this->coeff != b.coeff) {
+                return false;
+            }
+
+            if (this->var!= b.var) {
+                return false;
+            }
+
+            if (this->exp != b.exp) {
+                return false;
+            }
+
+            return true;
+        }
+
+        // * Overload * operator c = a*b
+        Atom operator*(const Atom& b) {
+            if (this->var != b.var) {
+                throw std::runtime_error("Atom Multiplication between different variables.");
+            };
+
+            Atom c;
+            c.var = this->var;
+            c.coeff = this->coeff * b.coeff;
+            c.exp =  this->exp + b.exp;
+            return c;
+        }
+
+        Atom operator*(float b) {
+            return Atom(this->coeff * b, this->var, this->exp);
+        }
+
 };
 
+Atom operator/(float a, const Atom& b) {
+    float coeff = a / b.coeff;
+    float exp = - b.exp;
+    
+    return Atom(coeff, b.var, exp);
+};
+
+Atom operator*(float a, const Atom& b) {
+    float coeff = a * b.coeff;
+    return Atom(coeff, b.var, b.exp);
+};
