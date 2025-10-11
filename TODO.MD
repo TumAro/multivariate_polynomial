@@ -14,11 +14,10 @@
 
 
 **Polynom**
-- [ ] Polyom * particle
-- [ ] Polynom + particle
-- [ ] Polynom - particle
-- [ ] POlynom -> degree, leading term
-- [ ] Multiply by particle (distributive)
+- [x] Polynom unary negetion
+- [x] Polynom (+, -, *) atom
+- [x] Polynom (+, -, *) particle
+- [ ] Polynom -> degree, leading term
 - [ ] partial evaluation (substitue some vars)
 
 
