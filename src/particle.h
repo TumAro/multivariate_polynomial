@@ -154,32 +154,32 @@ class Particle {
         }
 
         // * Overload + operator -> p = p1 + p2
-        Particle operator+(const Particle& p2) {
-            Particle p;
+        // Particle operator+(const Particle& p2) {
+        //     Particle p;
             
-            std::map<char, float> map1 = this->variables;
-            std::map<char, float> map2 = p2.variables;
+        //     std::map<char, float> map1 = this->variables;
+        //     std::map<char, float> map2 = p2.variables;
 
-            if (map1 == map2) {
-                float coeff = this->coefficient + p2.coefficient;
+        //     if (map1 == map2) {
+        //         float coeff = this->coefficient + p2.coefficient;
 
-                int i = 0;
-                for (const auto& pair : map1) {
-                    p.addAtom(Atom(
-                        i == 0 ? coeff : 1,
-                        pair.first,
-                        pair.second
-                    ));
-                    i++;
-                }
+        //         int i = 0;
+        //         for (const auto& pair : map1) {
+        //             p.addAtom(Atom(
+        //                 i == 0 ? coeff : 1,
+        //                 pair.first,
+        //                 pair.second
+        //             ));
+        //             i++;
+        //         }
                 
-                return p;
-            } else {
-                Particle p;
-                p.coefficient = 0;
-                return p;
-            }
-        }
+        //         return p;
+        //     } else {
+        //         Particle p;
+        //         p.coefficient = 0;
+        //         return p;
+        //     }
+        // }
 
         // * Overload / operator -> p = p1 / p2
         Particle operator/(const Particle& p2) {
@@ -262,8 +262,17 @@ class Particle {
 
 Particle operator*(const Atom&a, const Atom&b) {
     Particle p;
-    p.addAtom(a);
-    p.addAtom(b);
+    if (a.var == b.var) {
+        Atom result(
+            a.coeff * b.coeff,
+            a.var,
+            a.exp + b.exp
+        );
+        p.addAtom(result);
+    } else {
+        p.addAtom(a);
+        p.addAtom(b);
+    }
     return p;
 }
 
@@ -276,6 +285,20 @@ Particle operator*(const Atom&a1, const Particle&p2) {
 Particle operator*(float a, const Particle&p2) {
     Particle p = p2;
     p.coefficient *= a;
+    return p;
+}
+
+
+Particle operator/(const Atom&a, const Atom&b) {
+    Particle p;
+    if (a.var == b.var) {
+        Atom result(a.coeff / b.coeff, a.var, a.exp - b.exp);
+        p.addAtom(result);
+    } else {
+        Atom invb = 1 / b;
+        p.addAtom(a);
+        p.addAtom(invb);
+    }
     return p;
 }
 

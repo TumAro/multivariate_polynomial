@@ -15,15 +15,15 @@ class Atom {
         }
 
         // * Overload / operator, A = a / b
-        Atom operator/(const Atom& b) {
-            float coeff = this->coeff / b.coeff;
-            float exp = this->exp - b.exp;
+        // Atom operator/(const Atom& b) {
+        //     float coeff = this->coeff / b.coeff;
+        //     float exp = this->exp - b.exp;
 
-            if (this->var == b.var) {
-                return Atom(coeff, this->var, exp);
-            }
-            return Atom();
-        }
+        //     if (this->var == b.var) {
+        //         return Atom(coeff, this->var, exp);
+        //     }
+        //     return Atom();
+        // }
 
         Atom operator/(float b) {
             return Atom(this->coeff / b, this->var, this->exp);
@@ -47,17 +47,16 @@ class Atom {
         }
 
         // * Overload * operator c = a*b
-        Atom operator*(const Atom& b) {
-            if (this->var != b.var) {
-                throw std::runtime_error("Atom Multiplication between different variables.");
-            };
-
-            Atom c;
-            c.var = this->var;
-            c.coeff = this->coeff * b.coeff;
-            c.exp =  this->exp + b.exp;
-            return c;
-        }
+        // Atom operator*(const Atom& b) {
+        //     if (this->var != b.var) {
+        //         throw std::runtime_error("Atom Multiplication between different variables.");
+        //     };
+        //     Atom c;
+        //     c.var = this->var;
+        //     c.coeff = this->coeff * b.coeff;
+        //     c.exp =  this->exp + b.exp;
+        //     return c;
+        // }
 
         Atom operator*(float b) {
             return Atom(this->coeff * b, this->var, this->exp);

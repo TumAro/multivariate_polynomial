@@ -11,16 +11,18 @@
 - [x] divide by atom
 - [x] structural equality
 - [x] negate operation (unary)
-- [ ] Particle = atom + atom (when different var)
+- [x] Particle = atom * atom (when different var)
 
 
 **Polynom**
 - [x] Polynom unary negetion
 - [x] Polynom (+, -, *) atom
 - [x] Polynom (+, -, *) particle
+- [x] partial evaluation (substitue some vars)
+- [x] Polynom = particle + particle (when different varmap)
+- [x] Polnom = atom + atom (when different vars)
 - [ ] Polynom -> degree, leading term
-- [ ] partial evaluation (substitue some vars)
-- [ ] Polynom = particle + particle (when different map)
+- [ ] Equality check
 
 
 ## LATER

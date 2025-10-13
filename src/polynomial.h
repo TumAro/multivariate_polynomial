@@ -57,33 +57,10 @@ class Polynomial {
     // * Overload + operator -> P = P1 + P2
     Polynomial operator+(const Polynomial& P2) {
         Polynomial P;
-        
-        P.polynom = this->polynom;
-
-        for (int i = 0; i < P2.polynom.size() ; i++) {
-            bool match = false;
-            Particle p2 = P2.polynom[i];
-
-            for (int j = 0; j < P.polynom.size(); j++) {
-                Particle p1 = P.polynom[j];
-
-                if (p2.variables == p1.variables) {
-                    Particle p3 = p1 + p2;
-                    if (p3.coefficient != 0) {
-                        P.polynom[j] = p3;
-                    } else {
-                        P.polynom.erase(P.polynom.begin() + j);
-                    }
-                    match = true;
-                    break;
-                }
-            }
-
-            if (!match) {
-                P.polynom.push_back(p2);
-            }
+        for (const Particle& particle : P2.polynom) {
+            P = P + particle;
         }
-
+        
         return P;
     }
 
@@ -242,6 +219,13 @@ class Polynomial {
 };
 
 // * (+)atom - operation overloading
+Polynomial operator+(const Atom& a, const Atom& b) {
+    Polynomial P;
+    P = P + a;
+    P = P + b;
+    return P;
+}
+
 Polynomial operator+(const Atom& a, const Polynomial& P2) {
     Polynomial P = P2;
     return P + a;
@@ -250,6 +234,13 @@ Polynomial operator+(const Atom& a, const Polynomial& P2) {
 Polynomial operator+(float f, const Polynomial& P2) {
     Polynomial P = P2;
     return P + f;
+}
+
+Polynomial operator-(const Atom& a, const Atom& b) {
+    Polynomial P;
+    P = P + a;
+    P = P - b;
+    return P;
 }
 
 Polynomial operator-(const Atom& a, const Polynomial& P2) {
@@ -274,9 +265,23 @@ Polynomial operator*(float f, const Polynomial& P2) {
 }
 
 // * (+)Particle - operation overloading
+Polynomial operator+(const Particle& p, const Particle& q) {
+    Polynomial P;
+    P = P + p;
+    P = P + q;
+    return P;
+}
+
 Polynomial operator+(const Particle& p, const Polynomial& P2) {
     Polynomial P = P2;
     return P + p;
+}
+
+Polynomial operator-(const Particle& p, const Particle& q) {
+    Polynomial P;
+    P = P + p;
+    P = P - p;
+    return P;
 }
 
 Polynomial operator-(const Particle& p, const Polynomial& P2) {
