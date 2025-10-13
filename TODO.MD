@@ -11,6 +11,7 @@
 - [x] divide by atom
 - [x] structural equality
 - [x] negate operation (unary)
+- [ ] Particle = atom + atom (when different var)
 
 
 **Polynom**
@@ -19,6 +20,7 @@
 - [x] Polynom (+, -, *) particle
 - [ ] Polynom -> degree, leading term
 - [ ] partial evaluation (substitue some vars)
+- [ ] Polynom = particle + particle (when different map)
 
 
 ## LATER

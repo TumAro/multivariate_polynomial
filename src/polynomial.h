@@ -13,15 +13,27 @@ class Polynomial {
         polynom.push_back(p);
     }
 
-    float eval(std::map<char, float> values) {
+    // evaluation
+    float operator()(std::map<char, float> values) {
         float ans = 0;
 
         for (int i = 0; i < polynom.size() ; i++) {
             Particle p = polynom[i];
-            ans += p.eval(values);
+            ans += p(values);
         };
 
         return ans;
+    }
+
+    Polynomial partialEval(std::map<char, float> values) {
+        Polynomial P;
+
+        for (const Particle& particle: polynom) {
+            Particle p = particle.partialEval(values);
+            P = P + p;
+        }
+
+        return P;
     }
 
     void sortLexicographic() {
@@ -202,47 +214,7 @@ class Polynomial {
 
     // * Overload % Operator -> P = Q*D + R -> R
     Polynomial operator%(const Polynomial& divisor) {
-        std::cout << "Division started!" << std::endl;
-        Polynomial Q;           // Q = 0 -> Quotient
-        Polynomial R;           // R = 0 -> Remainder
-        Polynomial P = *this;   // P -> copy of this polynom
-        Polynomial D = divisor; // D -> copy of divisor
-
-        P.sortLexicographic();
-        D.sortLexicographic();
-
-        while (P.polynom.size() > 0) {
-
-            Particle leadP = P.polynom[0];
-            Particle leadD = D.polynom[0];
-            bool divisible = true;
-
-            for (const auto& pair : leadD.variables) {
-                char var = pair.first;
-                if (leadP.variables.count(var) > 0) {
-                    divisible = leadP.variables[var] >= pair.second;
-                } else { divisible = false; }
-
-                if (!divisible) {break;}
-            }
-
-            if (divisible) {
-                Polynomial q;
-                q.addParticle(leadP / leadD);
-                Q = Q + q;
-                P = P - (q * D);
-
-            } else {
-                Polynomial leadTerm;
-                leadTerm.addParticle(leadP);
-                R = R + leadTerm;
-                P = P - leadTerm;
-
-            }
-            
-        }
-
-        return R;
+        return *this - ((*this / divisor) * divisor);
     }
 
     void print() {

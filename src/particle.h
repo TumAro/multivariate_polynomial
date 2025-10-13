@@ -12,12 +12,12 @@ class Particle {
         Particle() : coefficient(1) {}
 
         void addAtom(Atom atom) {
-            atoms.push_back(atom);
+            this->coefficient *= atom.coeff;
+            atoms.push_back(Atom(1, atom.var, atom.exp));
             mapVars();
         }
 
         void mapVars () {
-            coefficient = 1;
             variables.clear();
 
             for (int i = 0; i < atoms.size(); i++) {
@@ -27,7 +27,6 @@ class Particle {
                     var = '@';
                 }
 
-                coefficient *= atom.coeff;
                 
                 if (variables.find(var) == variables.end()) {
                     variables[var] = atom.exp;
@@ -35,18 +34,37 @@ class Particle {
                     variables[var] += atom.exp;                 
                 }
             }
+            this->variables = variables;
         }
 
-        float eval(std::map<char, float> values) {
-            float ans = 1;
+        // evaluation
+        float operator()(std::map<char, float> values) const {
+            float ans = this->coefficient;
 
             for (int i = 0; i < atoms.size(); i++) {
                 char var = atoms[i].var;
                 float value = values[var];
-                ans = ans * atoms[i].eval(value);
+                ans = ans * atoms[i](value);
             }
             
             return ans;
+        }
+
+        Particle partialEval(std::map<char, float> values) const {
+            Particle p;
+            p.coefficient = this->coefficient;
+
+            for (const Atom& atom: this->atoms) {
+                char var = atom.var;
+                if(values.find(var) != values.end()) {
+                    p.coefficient  *= atom(values[var]);
+                }
+                else {
+                    p.addAtom(atom);
+                }
+            }
+
+            return p;
         }
 
         std::vector<float> getExpVec() const { 
@@ -227,7 +245,27 @@ class Particle {
             p.coefficient = -p.coefficient;
             return p;
         }
+
+        void print() const {
+            std::cout << coefficient;
+            for (auto pair : variables) {
+                if (pair.second != 0) {
+                    std::cout << pair.first;
+                    if (pair.second != 1) {
+                        std::cout << "^" << pair.second;
+                    }
+                }
+            }
+            std::cout << std::endl;
+        }
 };
+
+Particle operator*(const Atom&a, const Atom&b) {
+    Particle p;
+    p.addAtom(a);
+    p.addAtom(b);
+    return p;
+}
 
 Particle operator*(const Atom&a1, const Particle&p2) {
     Particle p = p2;

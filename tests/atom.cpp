@@ -11,11 +11,13 @@ int main() {
     // std::cout << inv.coeff << " " << inv.exp << std::endl;
     // std::cout << b.coeff << " " << b.exp << std::endl;
 
-    if ( a1 == b2 ) {
-        std::cout << "yep" << std::endl;
-    } else {
-        std::cout << "nope" << std::endl;
-    }
+    // if ( a1 == b2 ) {
+    //     std::cout << "yep" << std::endl;
+    // } else {
+    //     std::cout << "nope" << std::endl;
+    // }
+
+    std::cout << a1(2) << std::endl;
 
 
     return 0;
