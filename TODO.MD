@@ -23,13 +23,29 @@
 - [x] Polnom = atom + atom (when different vars)
 - [ ] Polynom -> degree, leading term
 - [ ] Equality check
+- [ ] Number of variables
 
+**Input Output**
+- [ ] array -> polynom (univariate)
+- [ ] polynom -> array (univariate)
+- [ ] lexicographic scale up
+
+**LA**
+- [ ] Polynom matrix struct
+
+**Determinant**
+- [ ] 2x2 det
+- [ ] 3x3 det
+- [ ] ?scale up to larger det?
+- [ ] recursive cofactor
+- [ ] LU decompostion
 
 ## LATER
-
-[ ] - list of coefficient to polynomial  
-[ ] - Determinants  
-[ ] - Kronecker mult (if speed)  
+ 
+[ ] - !real number inputs
+[ ] - precision on float values
+[ ] - Kronecker mult (if speed needed)  
+[ ] - boost library to precision and enchancment
 [ ] - Growbner basis operation  
 [ ] - Lin Transform  
 [ ] - Resultant of Polynomials  
