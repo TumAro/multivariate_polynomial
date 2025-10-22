@@ -7,9 +7,12 @@ class Particle {
         std::vector<Atom> atoms;
 
         float coefficient;
-        std::map<char, float> variables;
+        std::map<char, int> variables;
 
         Particle() : coefficient(1) {}
+        Particle(const Atom& atom) : coefficient(1) {
+            addAtom(atom);
+        }
 
         void addAtom(Atom atom) {
             this->coefficient *= atom.coeff;

@@ -202,16 +202,19 @@ class Polynomial {
                 std::cout << " + ";
             }
 
-            std::cout << p.coefficient;
+            if (p.coefficient != 0) {
+                std::cout << p.coefficient;
 
-            for (auto pair : p.variables) {
-                if (pair.second !=0) {
-                        std::cout << pair.first;
-                    if (pair.second != 1) {
-                        std::cout << "^" << pair.second;
+                for (auto pair : p.variables) {
+                    if (pair.second !=0) {
+                            std::cout << pair.first;
+                        if (pair.second != 1) {
+                            std::cout << "^" << pair.second;
+                        }
                     }
                 }
             }
+            
         }
         std::cout << std::endl;
     }
@@ -293,4 +296,21 @@ Polynomial operator-(const Particle& p, const Polynomial& P2) {
 Polynomial operator*(const Particle& p, const Polynomial& P2) {
     Polynomial P = P2;
     return P * p;
+}
+
+// * ========================================================
+// * ========================================================
+
+Polynomial arrayToPoly (std::vector<float> coefficients, char var) {
+    Polynomial P;
+    
+    for (int i = 0; i < coefficients.size(); i++) {
+        float coeff = coefficients[i];
+        if (coeff != 0) {
+            Particle p(Atom(coefficients[i],var,i));
+            P.addParticle(p);
+        }
+    }
+
+    return P;
 }

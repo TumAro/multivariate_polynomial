@@ -26,8 +26,8 @@
 - [ ] Number of variables
 
 **Input Output**
-- [ ] array -> polynom (univariate)
-- [ ] polynom -> array (univariate)
+- [x] array -> polynom (univariate)
+- [x] polynom -> array (univariate)
 - [ ] lexicographic scale up
 
 **LA**

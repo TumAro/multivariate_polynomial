@@ -10,6 +10,10 @@ class Atom {
         Atom() : coeff(0), exp(0), var('x') {}
         Atom(float a, char v, float e) : coeff(a), exp(e), var(v) {}
 
+        float getCoeff() const {
+            return coeff;
+        }
+
         float operator()(float x) const {
             return this->coeff * std::pow(x, exp);
         }
