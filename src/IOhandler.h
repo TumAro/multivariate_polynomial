@@ -1,8 +1,12 @@
 #include <vector>
 #include <algorithm>
+
+#ifndef IOHANDLER_H
+#define IOHANDLER_H
+
 #include "polynomial.h"
 
-Polynomial ArrayToPoly (const  std::vector<float> coefficients, const char var) {
+inline Polynomial ArrayToPoly (const  std::vector<float> coefficients, const char var) {
     Polynomial P;
     
     for (int i = 0; i < coefficients.size(); i++) {
@@ -16,7 +20,7 @@ Polynomial ArrayToPoly (const  std::vector<float> coefficients, const char var) 
     return P;
 }
 
-std::vector<float> PolyToArray(const Polynomial P, const char var) {
+inline std::vector<float> PolyToArray(const Polynomial P, const char var) {
     int maxPower = 0;
 
     for (const Particle& particle : P.polynom) {
@@ -40,3 +44,5 @@ std::vector<float> PolyToArray(const Polynomial P, const char var) {
 
     return coefficients;
 }
+
+#endif

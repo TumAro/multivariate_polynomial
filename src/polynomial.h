@@ -1,3 +1,6 @@
+#ifndef POLYNOMIAL_H
+#define POLYNOMIAL_H
+
 #include <vector>
 #include <algorithm>
 #include "particle.h"
@@ -56,7 +59,7 @@ class Polynomial {
 
     // * Overload + operator -> P = P1 + P2
     Polynomial operator+(const Polynomial& P2) {
-        Polynomial P;
+        Polynomial P = *this;
         for (const Particle& particle : P2.polynom) {
             P = P + particle;
         }
@@ -301,16 +304,4 @@ Polynomial operator*(const Particle& p, const Polynomial& P2) {
 // * ========================================================
 // * ========================================================
 
-Polynomial arrayToPoly (std::vector<float> coefficients, char var) {
-    Polynomial P;
-    
-    for (int i = 0; i < coefficients.size(); i++) {
-        float coeff = coefficients[i];
-        if (coeff != 0) {
-            Particle p(Atom(coefficients[i],var,i));
-            P.addParticle(p);
-        }
-    }
-
-    return P;
-}
+#endif

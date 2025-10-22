@@ -31,11 +31,11 @@
 - [ ] lexicographic scale up
 
 **LA**
-- [ ] Polynom matrix struct
+- [x] Polynom matrix struct
 
 **Determinant**
-- [ ] 2x2 det
-- [ ] 3x3 det
+- [x] 2x2 det
+- [x] 3x3 det
 - [ ] ?scale up to larger det?
 - [ ] recursive cofactor
 - [ ] LU decompostion
@@ -49,3 +49,4 @@
 [ ] - Growbner basis operation  
 [ ] - Lin Transform  
 [ ] - Resultant of Polynomials  
+

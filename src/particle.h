@@ -1,3 +1,6 @@
+#ifndef PARTICLE_H
+#define PARTICLE_H
+
 #include "atom.h"
 #include <vector>
 #include <map>
@@ -106,7 +109,7 @@ class Particle {
         // * Overload * operator -> p = p1 * p2
         Particle operator*(const Particle& p2) {
             Particle p;
-            float coeff = 1;
+            float coeff = this->coefficient * p2.coefficient;;
             std::map<char, int> variables;
 
             // calculating coeff
@@ -155,34 +158,6 @@ class Particle {
             p.coefficient *= b;
             return p;
         }
-
-        // * Overload + operator -> p = p1 + p2
-        // Particle operator+(const Particle& p2) {
-        //     Particle p;
-            
-        //     std::map<char, float> map1 = this->variables;
-        //     std::map<char, float> map2 = p2.variables;
-
-        //     if (map1 == map2) {
-        //         float coeff = this->coefficient + p2.coefficient;
-
-        //         int i = 0;
-        //         for (const auto& pair : map1) {
-        //             p.addAtom(Atom(
-        //                 i == 0 ? coeff : 1,
-        //                 pair.first,
-        //                 pair.second
-        //             ));
-        //             i++;
-        //         }
-                
-        //         return p;
-        //     } else {
-        //         Particle p;
-        //         p.coefficient = 0;
-        //         return p;
-        //     }
-        // }
 
         // * Overload / operator -> p = p1 / p2
         Particle operator/(const Particle& p2) {
@@ -316,3 +291,5 @@ Particle operator/(const Atom&a1, const Particle&p2) {
     p.addAtom(a1);
     return p;
 }
+
+#endif

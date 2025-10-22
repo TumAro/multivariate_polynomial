@@ -1,3 +1,6 @@
+#ifndef ATOM_H
+#define ATOM_H
+
 #include <cmath>
 #include <stdexcept>
 
@@ -79,3 +82,5 @@ Atom operator*(float a, const Atom& b) {
     float coeff = a * b.coeff;
     return Atom(coeff, b.var, b.exp);
 };
+
+#endif
