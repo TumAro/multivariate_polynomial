@@ -36,8 +36,12 @@
 **Determinant**
 - [x] 2x2 det
 - [x] 3x3 det
-- [ ] ?scale up to larger det?
-- [ ] recursive cofactor
+- [x] ?scale up to larger det?
+- [x] recursive cofactor
+
+- [ ] Matrix (+, -, *)
+- [ ] Transpose
+
 - [ ] LU decompostion
 
 ## LATER

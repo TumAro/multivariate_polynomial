@@ -107,7 +107,7 @@ class Particle {
         }
 
         // * Overload * operator -> p = p1 * p2
-        Particle operator*(const Particle& p2) {
+        Particle operator*(const Particle& p2) const {
             Particle p;
             float coeff = this->coefficient * p2.coefficient;;
             std::map<char, int> variables;
@@ -147,20 +147,20 @@ class Particle {
             return p;
         }
 
-        Particle operator*(const Atom& a2) {
+        Particle operator*(const Atom& a2) const {
             Particle p = *this;
             p.addAtom(a2);
             return p;
         }
 
-        Particle operator*(float b) {
+        Particle operator*(float b) const {
             Particle p = *this;
             p.coefficient *= b;
             return p;
         }
 
         // * Overload / operator -> p = p1 / p2
-        Particle operator/(const Particle& p2) {
+        Particle operator/(const Particle& p2) const {
             std::map<char, float> vars;
             
             float coeff = this->coefficient / p2.coefficient;
@@ -193,7 +193,7 @@ class Particle {
             return p;
         }
 
-        Particle operator/(const Atom&a2) {
+        Particle operator/(const Atom&a2) const {
             Particle p = *this;
             Atom inv = 1 / a2;
 
@@ -201,14 +201,14 @@ class Particle {
             return p;
         }
 
-        Particle operator/(float b) {
+        Particle operator/(float b) const {
             Particle p = *this;
             p.coefficient /= b;
             return p;
         }
 
         // * Overload == operator (p1==p2)
-        bool operator==(const Particle& p2) {
+        bool operator==(const Particle& p2) const {
             if (
                 this->coefficient != p2.coefficient ||
                 this->variables != p2.variables 
@@ -218,7 +218,7 @@ class Particle {
         }
 
         // * Overload unary negeion -p
-        Particle operator-() {
+        Particle operator-()  {
             Particle p = *this;
             p.coefficient = -p.coefficient;
             return p;

@@ -6,5 +6,6 @@
 #include "matrix.h"         // * the module call MATRIX class
 
 #include "IOhandler.h"      // * calling method for Arr2Poly & Poly2Arr
+#include "linalg.h"         // * calling operations on matrix
 
 #endif

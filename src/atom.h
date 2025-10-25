@@ -32,12 +32,12 @@ class Atom {
         //     return Atom();
         // }
 
-        Atom operator/(float b) {
+        Atom operator/(float b) const {
             return Atom(this->coeff / b, this->var, this->exp);
         }
 
         // * Overload == operator (a == b)
-        bool operator==(const Atom& b) {
+        bool operator==(const Atom& b) const {
             if (this->coeff != b.coeff) {
                 return false;
             }
@@ -65,7 +65,7 @@ class Atom {
         //     return c;
         // }
 
-        Atom operator*(float b) {
+        Atom operator*(float b) const {
             return Atom(this->coeff * b, this->var, this->exp);
         }
 
