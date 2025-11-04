@@ -6,10 +6,15 @@
 
 #include "polynomial.h"
 
-inline Polynomial ArrayToPoly (const  std::vector<float> coefficients, const char var) {
-    Polynomial P;
+inline Polynomial ArrayToPoly (const  std::vector<float> coefficients, const char var, int max_degree = -1) {
+    if (max_degree == -1) {
+        max_degree = coefficients.size() - 1;
+    }
+    Polynomial P(max_degree, var);
+
+    int bound = std::min((int)coefficients.size(), max_degree + 1);
     
-    for (int i = 0; i < coefficients.size(); i++) {
+    for (int i = 0; i < bound; i++) {
         float coeff = coefficients[i];
         if (coeff != 0) {
             Particle p(Atom(coefficients[i],var,i));

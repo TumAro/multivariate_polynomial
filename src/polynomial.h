@@ -9,10 +9,27 @@
 class Polynomial {
     public:
     std::vector<Particle> polynom;
+    int max_degree = -1;
+    char primary_var = '\0';
 
     Polynomial() {}
+    Polynomial(int degree, char var) {
+        max_degree = degree;
+        primary_var = var;
+    }
 
     void addParticle(Particle p) {
+        if (max_degree == -1) {
+            polynom.push_back(p);
+            return;
+        }
+
+        if (p.variables.count(primary_var) > 0) {
+            int degree = p.variables.at(primary_var);
+            if (degree > max_degree) {
+                return;
+            }
+        }
         polynom.push_back(p);
     }
 
@@ -29,7 +46,7 @@ class Polynomial {
     }
 
     Polynomial partialEval(std::map<char, float> values) {
-        Polynomial P;
+        Polynomial P(this->max_degree, this->primary_var);
 
         for (const Particle& particle: polynom) {
             Particle p = particle.partialEval(values);
@@ -46,22 +63,48 @@ class Polynomial {
             });
     }
 
+    int getDegree(char var) const {
+        int maxDeg = 0;
+        for (const Particle& p : polynom) {
+            if (p.variables.count(var) > 0) {
+                int deg = p.variables.at(var);
+                if (deg > maxDeg) maxDeg = deg;
+            }
+        }
+        return maxDeg;
+    }
+
+    Particle getLead() {
+        if (polynom.empty()) {
+            return Particle();
+        }
+        sortLexicographic();
+        return polynom[0];
+    }
+
     // * Unary negation
     Polynomial operator-() const {
-        Polynomial P;
+        Polynomial P(this->max_degree, this->primary_var);
+
         for (const auto& particle : this->polynom) {
             Particle p = particle;
             P.addParticle(-p);
         }
-
         return P;
     }
 
     // * Overload + operator -> P = P1 + P2
     Polynomial operator+(const Polynomial& P2) const {
         Polynomial P = *this;
+
         for (const Particle& particle : P2.polynom) {
             P = P + particle;
+        }
+
+        if (this->max_degree == -1 || P2.max_degree == -1) {
+            P.max_degree = -1;
+        } else {
+            P.max_degree = std::max(this->max_degree, P2.max_degree);
         }
         
         return P;
@@ -122,6 +165,13 @@ class Polynomial {
     // * Overload * Operator -> P = P1*P2
     Polynomial operator*(const Polynomial& P2) const {
         Polynomial P ;
+        if (this->max_degree == -1 || P2.max_degree == -1) {
+            P.max_degree = -1;
+        } else {
+            P.max_degree = this->max_degree + P2.max_degree;
+            P.primary_var = this->primary_var;
+        }
+
         for (const auto& particle : P2.polynom) {
             P = P + *this * particle;
         }
@@ -131,6 +181,10 @@ class Polynomial {
     // * (*)particle
     Polynomial operator*(const Particle&p) const {
         Polynomial P = *this;
+
+        if (P.max_degree != -1 && p.variables.count(P.primary_var) > 0) {
+            P.max_degree += p.variables.at(P.primary_var);
+        }
 
         for (auto& particle : P.polynom){
             particle = particle * p;
