@@ -104,7 +104,7 @@ int main() {
     Polynomial T2;
     Particle b1;
     b1.addAtom(Atom(1, 'x', 1));  // x
-    b1.addAtom(Atom(1, 'y', 1));  // y²
+    b1.addAtom(Atom(1, 'y', 1));  // y
     T2.addParticle(b1);
 
     T2.print();

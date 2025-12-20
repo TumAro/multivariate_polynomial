@@ -26,16 +26,21 @@ inline Polynomial ArrayToPoly (const  std::vector<float> coefficients, const cha
 }
 
 inline std::vector<float> PolyToArray(const Polynomial P, const char var) {
-    int maxPower = 0;
 
-    for (const Particle& particle : P.polynom) {
-        if (particle.variables.count(var) > 0) {
-            float power = particle.variables.at(var);
-            if (power >maxPower) maxPower = power;
+    int arraySize;
+    if (P.max_degree != -1) {
+        arraySize = P.max_degree;
+    } else {
+        arraySize = 0;
+        for (const Particle& particle : P.polynom) {
+            if (particle.variables.count(var) > 0) {
+                float power = particle.variables.at(var);
+                if (power > arraySize) arraySize = power;
+            }
         }
     }
 
-    std::vector<float> coefficients(maxPower+1, 0.0);
+    std::vector<float> coefficients(arraySize+1, 0.0);
 
     for (const Particle& particle : P.polynom) {
         if (particle.variables.count(var) > 0) {

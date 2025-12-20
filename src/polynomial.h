@@ -126,6 +126,14 @@ class Polynomial {
             P.addParticle(p);
         }
 
+        P.polynom.erase(
+            std::remove_if(P.polynom.begin(), P.polynom.end(), [](const Particle& particle) {
+                return particle.coefficient == 0 ||
+                std::abs(particle.coefficient) < 1e-10;
+            }),
+            P.polynom.end()
+        );
+
         return P;
     }
 
