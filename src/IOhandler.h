@@ -55,4 +55,46 @@ inline std::vector<float> PolyToArray(const Polynomial P, const char var) {
     return coefficients;
 }
 
+inline Polynomial MultivariateArrayToPoly(
+    const std::vector<float>& coefficients,
+    const std::vector<char>& vars,
+    const std::vector<int>& dims
+) {
+    int size = 1;
+    for (int d : dims) size *= d;
+    if (coefficients.size() != size) {
+        std::cerr << "Error: Coefficient size mismatch" << std::endl;
+        return Polynomial();
+    }
+
+    Polynomial P;
+
+    // an gear clock logic
+    for (int i = 0; i < coefficients.size(); i++) {
+        float coeff = coefficients[i];
+        if (coeff == 0) continue;
+
+        Particle p;
+        p.coefficient = coeff;
+
+        int ticks = i;
+
+        // starting from fastest spinning hand ie the smallest second hand
+        for (int v = vars.size()-1; v >= 0; v--) {
+            int currDim = dims[v];
+            int exp = ticks % currDim;
+            ticks /= currDim;
+
+            if (exp > 0) {
+                p.addAtom(Atom(1, vars[v], exp));
+            }
+        }
+
+        P.addParticle(p);
+    }
+
+    return P;
+
+}
+
 #endif
