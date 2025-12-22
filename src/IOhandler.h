@@ -82,8 +82,8 @@ inline Polynomial MultivariateArrayToPoly(
         // starting from fastest spinning hand ie the smallest second hand
         for (int v = vars.size()-1; v >= 0; v--) {
             int currDim = dims[v];
-            int exp = ticks % currDim;
-            ticks /= currDim;
+            int exp = ticks % currDim;  // -> after full cycling how much (mod n)
+            ticks /= currDim;           // -> how many times cycled
 
             if (exp > 0) {
                 p.addAtom(Atom(1, vars[v], exp));
