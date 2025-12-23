@@ -62,8 +62,14 @@ inline Polynomial MultivariateArrayToPoly(
 ) {
     int size = 1;
     for (int d : dims) size *= d;
+
     if (coefficients.size() != size) {
         std::cerr << "Error: Coefficient size mismatch" << std::endl;
+        return Polynomial();
+    }
+
+    if (vars.size() != dims.size()) {
+        std::cerr << "Error: Variable size mismatch" << std::endl;   
         return Polynomial();
     }
 
