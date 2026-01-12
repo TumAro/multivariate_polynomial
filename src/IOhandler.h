@@ -61,7 +61,7 @@ inline Polynomial MultivariateArrayToPoly(
     const std::vector<int>& dims
 ) {
     int size = 1;
-    for (int d : dims) size *= d;
+    for (int d : dims) size *= d+1;
 
     if (coefficients.size() != size) {
         std::cerr << "Error: Coefficient size mismatch" << std::endl;
@@ -86,10 +86,12 @@ inline Polynomial MultivariateArrayToPoly(
         int ticks = i;
 
         // starting from fastest spinning hand ie the smallest second hand
-        for (int v = vars.size()-1; v >= 0; v--) {
+        // for (int v = vars.size()-1; v >= 0; v--)
+        for  ( int v = 0; v < vars.size(); v++)
+        {
             int currDim = dims[v];
-            int exp = ticks % currDim;  // -> after full cycling how much (mod n)
-            ticks /= currDim;           // -> how many times cycled
+            int exp = ticks % (currDim+1);  // -> after full cycling how much (mod n)
+            ticks /= (currDim+1);           // -> how many times cycled
 
             if (exp > 0) {
                 p.addAtom(Atom(1, vars[v], exp));

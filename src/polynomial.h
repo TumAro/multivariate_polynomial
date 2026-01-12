@@ -281,7 +281,7 @@ class Polynomial {
             }
             
         }
-        std::cout << std::endl;
+        std::cout << "  ";
     }
 
 };

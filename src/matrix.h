@@ -60,6 +60,63 @@ class PolynomialMatrix {
         return matrix[0][0] * matrix[1][1] - matrix[0][1] * matrix[1][0];
     }
 
+    // print the matrix
+    void print() {
+        for (int r = 0; r < rows ; r++) {
+            std::cout << "| ";
+            for (int c = 0; c < cols; c++) {
+                matrix[r][c].print();
+            }
+            std::cout << "|" << std::endl;
+        }
+    }
+
+    // Matrix * Matrix
+    PolynomialMatrix operator*(const PolynomialMatrix& N) const {
+        if (this->cols != N.rows) {
+            std::cerr << "Error: Multiplication shape is not matching" << std::endl;
+        }
+
+        int same = this->cols;
+        int rows = this->rows;
+        int cols = N.cols;
+        PolynomialMatrix M(rows, cols);
+
+        for (int r = 0; r < rows; r++) {
+            for (int c = 0; c < cols; c++) {
+                Polynomial val;
+                for (int i = 0; i < same; i++) {
+                    val = val + this->matrix[r][i] * N[i][c];
+                }
+                M[r][c] = val;
+            }
+        }
+
+        return M;
+    }
+
+    // Matrix * Polynom
+    PolynomialMatrix operator*(const Polynomial& a) const {
+        PolynomialMatrix M(this->rows, this->cols);
+        
+        for (int i = 0; i < this->rows; i++) {
+            for (int j = 0; j < this->cols; j++) {
+                M[i][j] = a * this->matrix[i][j];
+            }
+        }
+
+        return M;
+    }
+
+    // Matrix ^ n
+    PolynomialMatrix operator^(const int& n) const {
+        PolynomialMatrix M = *this;
+        for (int i = 0; i < n-1; i++) {
+            M = M * (*this);
+        }
+        return M;
+    }
+
     private:
     void _check_square() const {
         if (rows != cols) {
@@ -70,5 +127,9 @@ class PolynomialMatrix {
         }
     }
 };
+
+PolynomialMatrix operator*(const Polynomial& a, const PolynomialMatrix& M) {
+    return M * a;
+}
 
 #endif
