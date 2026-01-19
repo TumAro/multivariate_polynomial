@@ -1,7 +1,7 @@
 #include "src/polynomial.h"
 
 int main() {
-    std::cout << "TEST: Basic unipoly + addition + degrees" << std::endl;
+    Log("TEST: Basic unipoly + addition + degrees");
     UniPolynom P({1,1,1});
     P.print();
 
@@ -14,4 +14,12 @@ int main() {
     D.print();
 
     std::cout << A(1);
+    Log("=========================================");
+
+    Log("TEST: Substraction");
+    UniPolynom E = A - B;
+    UniPolynom F = 3 - B;
+    E.print();
+    F.print();
+
 }

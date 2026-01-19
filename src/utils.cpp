@@ -1,3 +1,8 @@
+#include "utils.h"
+
+void Log(std::string txt) {
+    std::cout << txt << std::endl;
+}
 
 int max(int a, int b) {
     return (a > b) ? a : b;

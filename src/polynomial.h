@@ -24,9 +24,9 @@ public:
     UniPolynom operator+(const UniPolynom& P2) const;
     UniPolynom operator+(float a) const;
 
-    // UniPolynom operator-() const;
-    // UniPolynom operator-(const UniPolynom& P2) const;
-    // UniPolynom operator-(float a) const;
+    UniPolynom operator-() const;
+    UniPolynom operator-(const UniPolynom& P2) const;
+    UniPolynom operator-(float a) const;
 
     // UniPolynom operator*(const UniPolynom& P2) const;
     // UniPolynom operator*(float a) const;
@@ -35,5 +35,5 @@ public:
 
 // FREE FUNCTION - Univariate Polynomial
 UniPolynom operator+(float f, const UniPolynom& P2);
-// UniPolynom operator-(float f, const UniPolynom& P2);
+UniPolynom operator-(float f, const UniPolynom& P2);
 // UniPolynom operator*(float f, const UniPolynom& P2);

@@ -64,10 +64,35 @@ UniPolynom UniPolynom::operator+(float a) const {
     return P;
 }
 
+// Operation Negetion
+UniPolynom UniPolynom::operator-() const {
+    int size = (*this).degree()+1;
+    UniPolynom P(size);
+
+    for (int i = 0 ; i < size; i++) {
+        P.coeffs[i] = -(this->coeffs[i]);
+    }
+
+    return P;
+}
+
+// Operation Substraction
+UniPolynom UniPolynom::operator-(const UniPolynom& P2) const {
+    UniPolynom sub = -P2;
+    return (*this) + sub;
+}
+
+UniPolynom UniPolynom::operator-(float a) const {
+    return (*this) + (-a);
+}
 
 //  ==================================
 //  FREE FUNCTIONS
 //  ==================================
 UniPolynom operator+(float f, const UniPolynom& P2) {
     return P2 + f;
+}
+
+UniPolynom operator-(float f, const UniPolynom& P2) {
+    return P2 - f;
 }

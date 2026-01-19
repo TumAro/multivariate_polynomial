@@ -4,8 +4,10 @@
     [x] with polynom
     [X] with float
 [x] - Evaluate (plug in a value for x)
+[x] - Substraction
+    [x] with polynom
+    [x] with float
 
-[ ] - Substraction
 [ ] - Multiplication
 [ ] - Division
 
