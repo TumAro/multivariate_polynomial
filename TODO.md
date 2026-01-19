@@ -1,10 +1,14 @@
 # Univariate POLYNOM
-[ ] - Univariate Polynom
-[ ] - Evaluate (plug in a value for x)
+[x] - Univariate Polynom
 [ ] - Addition
+    [x] with polynom
+    [X] with float
+[x] - Evaluate (plug in a value for x)
+
 [ ] - Substraction
 [ ] - Multiplication
 [ ] - Division
-[ ] - Highest Degree
-[ ] - Init: Set highest degree
+
+[x] - Highest Degree
+[x] - Init: Set highest degree
 [ ] - Equivalence
