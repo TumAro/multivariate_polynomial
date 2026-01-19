@@ -1,14 +1,5 @@
-#ifndef LINALG_H
-#define LINALG_H
+#include "linalg.h"
 
-#include "matrix.h"
-
-// Forward declarations
-Polynomial det(const PolynomialMatrix& M);
-Polynomial cofactor(const PolynomialMatrix& M, int row, int col);
-
-
-// DEFINITIONS
 Polynomial determinant(const PolynomialMatrix& M) {
     if (M.rows == 1) {
         return M[0][0];
@@ -26,9 +17,7 @@ Polynomial determinant(const PolynomialMatrix& M) {
 }
 
 Polynomial cofactor(const PolynomialMatrix& M, int row, int col) {
-    PolynomialMatrix sub = M.submatrix(row,col);
+    PolynomialMatrix sub = M.submatrix(row, col);
     int sign = ((row + col) % 2 == 0) ? 1 : -1;
     return sign * determinant(sub);
 }
-
-#endif

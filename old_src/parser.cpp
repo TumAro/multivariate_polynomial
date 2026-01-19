@@ -1,8 +1,4 @@
-#include <string>
-#include <regex>
-
-#include "polynomial.h"
-
+#include "parser.h"
 
 Atom parseAtom(std::string term) {
 
@@ -45,7 +41,9 @@ Polynomial parsePolynom(std::string poly) {
             p.addAtom(parseAtom(value));
             tempPolynom.addParticle(p);
         }
-
     }
 
+    // TODO: This function is incomplete - it doesn't accumulate terms or return the result
+    // Currently just parses tokens but doesn't build the final polynomial
+    return P;
 }
