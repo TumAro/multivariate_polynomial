@@ -22,4 +22,15 @@ int main() {
     E.print();
     F.print();
 
+    Log("=========================================");
+
+    Log("TEST: multiplication -> float + Polynom");
+    UniPolynom G = 5 * A * 2;
+    G.print();
+
+    UniPolynom I({1,2,3});      // 1+2x+3x^2
+    UniPolynom J({0,2,0,3});    // 2x + 3x^3
+    UniPolynom K = I*J;         // 2x + 4x^2 + 9x^3 + 6x^4 + 9x^5
+    K.print();
+
 }
