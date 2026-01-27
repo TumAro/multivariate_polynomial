@@ -18,6 +18,15 @@
 [ ] - Equivalence
 
 # Multivariate POLYNOM
+[ ] - evaluate
+[ ] - Addition
+    [ ] polynom
+    [ ] float
+[ ] - substraction
+    [ ] polynom
+    [ ] float
+    [ ] negation
+[ ] - Multiplication
 
 # Lin algebra:
 [ ] - dot
