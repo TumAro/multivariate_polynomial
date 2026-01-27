@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <iostream>
+#include <map>
 
 #include "utils.h"
 
@@ -19,7 +20,7 @@ public:
     float lead() const;
     float intercept() const;
     void print();
-    float operator[](int n);    // modifiable
+    float& operator[](int n);    // modifiable
     float operator[](int n) const;
     float operator()(float x) const;
 
@@ -44,9 +45,32 @@ UniPolynom operator*(float f, const UniPolynom& P2);
 
 class MultPolynom {
     std::vector<float> coeffs;
-    static int vars;
-    static std::vector<int> degrees;
+    int vars;
+    int deg;
+
+    std::vector<std::vector<int>> exp_table;  // index -> exponents
+    std::map<std::vector<int>, int> exp_map;  // exponents -> index
+
+private:
+       // Creates exp -> index map
+       void setupIndices();
 
 public:
-    MultPolynom(int var, std::vector<int>& degrees);
-}
+    MultPolynom(int vars, int degree);
+
+    //member functions
+    int degree() const;
+    void print() const;
+    void expPrint() const;
+    
+    std::vector<int> index2exp(int idx) const;
+    int exp2index(std::vector<int> exp) const;
+
+
+    float& operator[](std::vector<int> exp);    // modifiable
+    float operator[](std::vector<int> exp) const;
+    float operator()(float x_val, float y_val, ...) const;
+
+    MultPolynom& operator=(std::vector<float> vect);
+    
+};

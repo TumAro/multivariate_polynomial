@@ -33,4 +33,23 @@ int main() {
     UniPolynom K = I*J;         // 2x + 4x^2 + 9x^3 + 6x^4 + 9x^5
     K.print();
 
+    Log("=========================================");
+
+    Log("TEST: mult Polynom");
+    MultPolynom L(2,2);
+    L = {1, 2, 1};
+
+    MultPolynom M(2,3);
+    M = {1,3,3,1};
+
+    MultPolynom N(3,2);
+    N = {1,2,2,1,2,1};
+
+    L.print();
+    M.print();
+    N.print();
+
+    Log("------ exponents");
+    M.expPrint();
+    N.expPrint();
 }

@@ -37,12 +37,8 @@ void UniPolynom::print() {
 }
 
 // get coeff at an index
-float UniPolynom::operator[](int n) {
-    if (n >= this->coeffs.size()) {
-        return 0.00;
-    }
-
-    return coeffs[n];
+float& UniPolynom::operator[](int n) {
+    return coeffs[n];  // Let it crash if out of bounds
 }
 
 float UniPolynom::operator[](int n) const {
