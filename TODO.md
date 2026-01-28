@@ -18,7 +18,6 @@
 [ ] - Equivalence
 
 # Multivariate POLYNOM
-[ ] - evaluate
 [ ] - Addition
     [ ] polynom
     [ ] float
@@ -26,6 +25,7 @@
     [ ] polynom
     [ ] float
     [ ] negation
+[ ] - evaluate
 [ ] - Multiplication
 
 # Lin algebra:
