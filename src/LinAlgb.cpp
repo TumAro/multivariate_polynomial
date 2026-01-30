@@ -55,6 +55,18 @@ UniPolynom UniMatrix::det2x2() const {
     return matrix[0][0] * matrix[1][1] - matrix[0][1] * matrix[1][0];
 }
 
+// showing the matrix
+void UniMatrix::print() {
+    for (int r = 0; r < rows; r++) {
+        std::cout << "| ";
+        for (int c = 0; c < cols; c++) {
+            matrix[r][c].print();
+            std::cout << "  ";
+        }
+        std::cout << "|" <<std::endl;
+    }
+}
+
 // =================================================
 // LINEAR ALGEBRA
 // =================================================

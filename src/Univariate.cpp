@@ -33,7 +33,7 @@ void UniPolynom::print() {
         std::cout << val << " ";
     }
 
-    std::cout << "}" << std::endl;
+    std::cout << "}";
 }
 
 // get coeff at an index
@@ -61,8 +61,9 @@ float UniPolynom::operator()(float x) const {
 }
 
 // setter
-UniPolynom& UniPolynom::operator=(std::vector<float> vect) {
+UniPolynom& UniPolynom::operator=(const std::vector<float>& vect) {
     this->coeffs = vect;
+    return *this;
 }
 
 // Operation Addition

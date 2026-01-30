@@ -24,7 +24,7 @@ public:
     UniPolynom trace();
     UniMatrix submatrix(int skip_r, int skip_c) const;
     UniPolynom det2x2() const;
-    // void print();
+    void print();
 
 private:
     void _check_square() const;

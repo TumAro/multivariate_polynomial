@@ -4,6 +4,10 @@ void Log(std::string txt) {
     std::cout << txt << std::endl;
 }
 
+void lineEnd() {
+    std::cout << std::endl;
+}
+
 int max(int a, int b) {
     return (a > b) ? a : b;
 }

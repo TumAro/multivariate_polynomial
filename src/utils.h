@@ -4,6 +4,7 @@
 #include <vector>
 
 void Log(std::string txt);
+void lineEnd();
 
 int max(int a, int b);
 int min(int a, int b);
