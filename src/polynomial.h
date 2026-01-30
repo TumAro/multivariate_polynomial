@@ -51,26 +51,43 @@ class MultPolynom {
     std::vector<std::vector<int>> exp_table;  // index -> exponents
     std::map<std::vector<int>, int> exp_map;  // exponents -> index
 
-private:
-       // Creates exp -> index map
-       void setupIndices();
-
-public:
+    public:
     MultPolynom(int vars, int degree);
-
-    //member functions
+    
+    //member operators
     int degree() const;
     void print() const;
     void expPrint() const;
     
     std::vector<int> index2exp(int idx) const;
     int exp2index(std::vector<int> exp) const;
-
-
+    
+    // indexing and evaluation
     float& operator[](std::vector<int> exp);    // modifiable
     float operator[](std::vector<int> exp) const;
     float operator()(float x_val, float y_val, ...) const;
-
+    
     MultPolynom& operator=(std::vector<float> vect);
     
+    // algebraic operators
+    MultPolynom operator+(const MultPolynom& P2) const;
+    MultPolynom operator+(float a) const;
+    
+    MultPolynom operator-() const;
+    MultPolynom operator-(const MultPolynom& P2) const;
+    MultPolynom operator-(float a) const;
+    
+    MultPolynom operator*(const MultPolynom& P2) const;
+    MultPolynom operator*(float a) const;
+    
+    private:
+           // Creates exp -> index map
+           void setupIndices();
 };
+
+// FREE FUNCTION - Multivariate Polynomial
+// MultPolynom operator+(float f, const UniPolynom& P2);
+// MultPolynom operator-(float f, const UniPolynom& P2);
+// MultPolynom operator*(float f, const UniPolynom& P2);
+
+
