@@ -29,7 +29,15 @@
 [ ] - Multiplication
 
 # Lin algebra:
+[ ] - addition
+[ ] - multiplication
+[ ] - transpose
+[ ] - identity
+[ ] - adjoint
 [ ] - dot
 [ ] - cross
-[ ] - determinant
 [ ] - eigen?
+
+## Determinant
+[ ] - univariate
+[ ] - Multivariate
