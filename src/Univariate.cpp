@@ -60,6 +60,10 @@ float UniPolynom::operator()(float x) const {
     return result;
 }
 
+// setter
+UniPolynom& UniPolynom::operator=(std::vector<float> vect) {
+    this->coeffs = vect;
+}
 
 // Operation Addition
 UniPolynom UniPolynom::operator+(const UniPolynom& P2) const {

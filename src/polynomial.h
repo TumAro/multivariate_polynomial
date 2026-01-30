@@ -24,6 +24,8 @@ public:
     float operator[](int n) const;
     float operator()(float x) const;
 
+    UniPolynom& operator=(std::vector<float> vect);
+
     //member operators
     UniPolynom operator+(const UniPolynom& P2) const;
     UniPolynom operator+(float a) const;
