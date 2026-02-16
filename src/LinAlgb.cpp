@@ -15,6 +15,17 @@ UniMatrix::UniMatrix(int r, int c) : rows(r), cols(c) {
 }
 
 // Accessories
+NumericMatrix UniMatrix::operator()(float x) const {
+    NumericMatrix M(this->rows, this->cols);
+
+    for (int r = 0; r < this->rows; r++) {
+        for (int c = 0; c < this->cols; c++){
+            M.matrix[r][c] = (*this)[r][c](x);
+        }
+    }
+
+    return M;
+}
 
 // trace of matrix
 UniPolynom UniMatrix::trace() {
@@ -65,6 +76,55 @@ void UniMatrix::print() {
         }
         std::cout << "|" <<std::endl;
     }
+}
+
+// building the degree matrix
+void UniMatrix::buildDegreeMat() {
+    this->degree_matrix.resize(this->rows, std::vector<int>(this->cols));
+
+    for (int r=0; r < this->rows; r++) {
+        for (int c=0; c < this->cols; c++) {
+            this->degree_matrix[r][c] = this->matrix[r][c].degree();
+        }
+    }
+}
+
+// obtaining the degree of the polynom matrix
+int UniMatrix::degree() {
+    this->buildDegreeMat();
+    this->d = -1;
+
+    int dr = 0;
+    int dc = 0;
+
+    // checking and adding row wise maximums
+    for (int r = 0; r < this->rows; r++) {
+        int max = this->degree_matrix[r][0];
+
+        for (int c = 1; c < this->cols; c++) {
+            int deg = this->degree_matrix[r][c];
+            if (deg > max) {
+                max = deg;
+            }
+        }
+        dr += max;
+    }
+
+    // checking and adding col wise maximums
+    for (int c = 0; c < this->cols; c++) {
+        int max = this->degree_matrix[0][c];
+
+        for (int r = 1; r < this->rows; r++) {
+            int deg = this->degree_matrix[r][c];
+            if (deg > max) {
+                max = deg;
+            }
+        }
+        dc += max;
+    }
+
+    this->d = min(dr, dc);
+    return this->d;
 }
 
 // =================================================

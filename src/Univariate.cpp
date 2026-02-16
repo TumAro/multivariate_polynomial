@@ -2,7 +2,7 @@
 
 // constructors
 UniPolynom::UniPolynom() : coeffs({0}) {}
-UniPolynom::UniPolynom(int n) { coeffs.resize(n); }
+UniPolynom::UniPolynom(int n) { coeffs.resize(n, 0.0f); }
 UniPolynom::UniPolynom(std::vector<float> c) : coeffs(std::move(c)) {}
 
 // get degree of polynom
