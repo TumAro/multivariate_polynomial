@@ -1,7 +1,7 @@
 #include "linalg.h"
 
 NumericMatrix::NumericMatrix(int r, int c) : rows(r), cols(c) {
-    matrix.resize(r, std::vector<float>(c));
+    matrix.resize(r, std::vector<double>(c));
 }
 
 // check if the matrix is square or not
@@ -34,7 +34,7 @@ NumericMatrix NumericMatrix::submatrix(int skip_r, int skip_c) const {
 }
 
 // determinant for 2x2 matrix
-float NumericMatrix::det2x2() const {
+double NumericMatrix::det2x2() const {
     _check_square();
     if (rows != 2) {
         throw std::runtime_error("Matrix is not of size 2!");
@@ -43,7 +43,7 @@ float NumericMatrix::det2x2() const {
 }
 
 // separate determinant function
-float determinant(const NumericMatrix& M) {
+double determinant(const NumericMatrix& M) {
     if (M.rows == 1) {
         return M.matrix[0][0];
     }
@@ -52,7 +52,7 @@ float determinant(const NumericMatrix& M) {
         return M.det2x2();
     }
 
-    float result;
+    double result;
     for (int j = 0; j < M.cols; j++) {
         result = result + M.matrix[0][j] * cofactor(M, 0, j);
     }
@@ -60,7 +60,7 @@ float determinant(const NumericMatrix& M) {
 }
 
 // cofactor function
-float cofactor(const NumericMatrix& M, int row, int col) {
+double cofactor(const NumericMatrix& M, int row, int col) {
     NumericMatrix sub = M.submatrix(row, col);
     int sign = ((row+col) % 2 == 0) ? 1 : -1;
     return sign * determinant(sub);
@@ -68,7 +68,7 @@ float cofactor(const NumericMatrix& M, int row, int col) {
 
 
 // Newton Interpolation Method
-UniPolynom newtonInterpolation(std::vector<float> X, std::vector<float> Y) {
+UniPolynom newtonInterpolation(const std::vector<double>& X, const std::vector<double>& Y) {
     if (X.size() != Y.size()) {
         throw std::runtime_error("The two set of points need of be of same size!");
     }
@@ -76,7 +76,7 @@ UniPolynom newtonInterpolation(std::vector<float> X, std::vector<float> Y) {
     int n = X.size();
 
     // divided difference table
-    std::vector<std::vector<float>> divDiff(n, std::vector<float>(n, 0.0f));
+    std::vector<std::vector<double>> divDiff(n, std::vector<double>(n, 0.0));
 
     //initialising the first column with Y values
     for (int r = 0; r < n; r++) {
@@ -90,14 +90,14 @@ UniPolynom newtonInterpolation(std::vector<float> X, std::vector<float> Y) {
         }
     }
 
-    // The first row of the table is the coefficients of the polynom
-    std::vector<float> coeffs = {divDiff[0][0]};
-    UniPolynom result(coeffs);
+    // Build result polynomial from divided differences
+    UniPolynom result(std::vector<float>{(float)divDiff[0][0]});
     UniPolynom basis(std::vector<float>{1.0f});
 
     for (int i = 1; i < n; i++) {
-        basis = basis * UniPolynom({-X[i-1], 1.0f});
-        result = result + basis*divDiff[0][i];
+        std::vector<float> factor_coeffs = {(float)(-X[i-1]), 1.0f};
+        basis = basis * UniPolynom(factor_coeffs);
+        result = result + basis * (float)divDiff[0][i];
     }
 
     return result;

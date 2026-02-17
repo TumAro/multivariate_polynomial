@@ -86,3 +86,27 @@ std::vector<std::vector<int>> lexorderArray(int total, int remainder_pos, std::v
 
     return all_sequences;
 }
+
+// generate array of N numbers
+std::vector<float> genUniformArray(int n, float int_start, float int_end) {
+    std::vector<float> result(n);
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_real_distribution<float> dist(int_start, int_end);
+
+    for (int i = 0; i < n; i++) {
+        result[i] = dist(gen);
+    }
+
+    return result;
+}
+
+// get spaced integer
+std::vector<double> genSpacedInteger(int n, float int_start) {
+    std::vector<double> result(n);
+    for (int i = 0; i < n; i++) {
+        result[i] = int_start + i;
+    }
+
+    return result;
+}

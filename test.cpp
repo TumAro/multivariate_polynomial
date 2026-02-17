@@ -75,6 +75,10 @@ int main() {
     UniPolynom O = determinant(Mat1);
     O.print();
     lineEnd();
+    std::cout << "DCEI:  ";
+    UniPolynom dcei1 = dceiDet(Mat1);
+    dcei1.print();
+    lineEnd();
 
     Log("TEST: uni Matrix - Polynomial entries");
     UniMatrix Mat2(3,3);
@@ -92,6 +96,10 @@ int main() {
     std::cout << "Determinant: ";
     P.print();
     lineEnd();
+    std::cout << "DCEI:  ";
+    UniPolynom dcei2 = dceiDet(Mat2);
+    dcei2.print();
+    lineEnd();
 
     Log("TEST: uni Matrix - 2x2");
     UniMatrix Mat3(2,2);
@@ -103,6 +111,10 @@ int main() {
     UniPolynom Q = determinant(Mat3);
     std::cout << "Determinant [-2 + 3x - x^2]: ";
     Q.print();
+    lineEnd();
+    std::cout << "DCEI:  ";
+    UniPolynom dcei3 = dceiDet(Mat3);
+    dcei3.print();
     lineEnd();
 
     Log("TEST: uni Matrix - 4x4 Higher degree polynomials");
@@ -128,6 +140,10 @@ int main() {
     std::cout << "Determinant (high degree): ";
     R.print();
     lineEnd();
+    std::cout << "DCEI:  ";
+    UniPolynom dcei4 = dceiDet(Mat4);
+    dcei4.print();
+    lineEnd();
 
     Log("TEST: uni Matrix - 3x3 Characteristic polynomial style");
     UniMatrix Mat5(3,3);
@@ -144,6 +160,10 @@ int main() {
     UniPolynom S = determinant(Mat5);
     std::cout << "Characteristic polynomial: ";
     S.print();
+    lineEnd();
+    std::cout << "DCEI:  ";
+    UniPolynom dcei5 = dceiDet(Mat5);
+    dcei5.print();
     lineEnd();
 
     Log("=========================================");
@@ -170,8 +190,8 @@ int main() {
     Log("=========================================");
 
     Log("TEST: Newton Interpolation - Simple case");
-    std::vector<float> X1 = {0, 1, 2};
-    std::vector<float> Y1 = {1, 3, 7};  // Points on y = 1 + x + x^2
+    std::vector<double> X1 = {0, 1, 2};
+    std::vector<double> Y1 = {1, 3, 7};  // Points on y = 1 + x + x^2
     UniPolynom interp1 = newtonInterpolation(X1, Y1);
     std::cout << "Interpolating through (0,1), (1,3), (2,7)" << std::endl;
     std::cout << "Expected: 1 + x + x^2" << std::endl;
@@ -180,8 +200,8 @@ int main() {
     lineEnd();
 
     Log("TEST: Newton Interpolation - Linear case");
-    std::vector<float> X2 = {0, 1};
-    std::vector<float> Y2 = {2, 5};  // Points on y = 2 + 3x
+    std::vector<double> X2 = {0, 1};
+    std::vector<double> Y2 = {2, 5};  // Points on y = 2 + 3x
     UniPolynom interp2 = newtonInterpolation(X2, Y2);
     std::cout << "Interpolating through (0,2), (1,5)" << std::endl;
     std::cout << "Expected: 2 + 3x" << std::endl;
@@ -190,8 +210,8 @@ int main() {
     lineEnd();
 
     Log("TEST: Newton Interpolation - Four points");
-    std::vector<float> X3 = {-1, 0, 1, 2};
-    std::vector<float> Y3 = {-1, 1, 3, 13};  // Points on y = 1 + x + 2x^2 + x^3
+    std::vector<double> X3 = {-1, 0, 1, 2};
+    std::vector<double> Y3 = {-1, 1, 3, 13};  // Points on y = 1 + x + 2x^2 + x^3
     UniPolynom interp3 = newtonInterpolation(X3, Y3);
     std::cout << "Interpolating through (-1,-1), (0,1), (1,3), (2,13)" << std::endl;
     std::cout << "Result: ";

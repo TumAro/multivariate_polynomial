@@ -2,6 +2,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <random>
 
 void Log(std::string txt);
 void lineEnd();
@@ -15,3 +16,7 @@ int factorial(int n);
 std::vector<float> joinVectors(std::vector<float> vec1, std::vector<float> vec2);
 
 std::vector<std::vector<int>> lexorderArray(int total, int remainder_pos, std::vector<int> indices = {}, int pos = 0);
+
+std::vector<float> genUniformArray(int n, float int_start, float int_end);
+
+std::vector<double> genSpacedInteger(int n, float int_start = 0);

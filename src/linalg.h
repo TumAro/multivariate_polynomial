@@ -4,6 +4,7 @@
 #include <vector>
 #include <iostream>
 #include <map>
+#include <random>
 
 #include "polynomial.h"
 #include "utils.h"
@@ -43,11 +44,11 @@ private:
 class NumericMatrix {
     public:
     int rows, cols;
-    std::vector<std::vector<float>> matrix;
+    std::vector<std::vector<double>> matrix;
     NumericMatrix(int r, int c);
     
     NumericMatrix submatrix(int skip_r, int skip_c) const;
-    float det2x2() const;
+    double det2x2() const;
     
     private:
     void _check_square() const;
@@ -58,7 +59,11 @@ class NumericMatrix {
 // Linear Algebra Operations
 UniPolynom determinant(const UniMatrix& M);
 UniPolynom cofactor(const UniMatrix& M, int row, int col);
-float determinant(const NumericMatrix& M);
-float cofactor(const NumericMatrix& M, int row, int col);
+double determinant(const NumericMatrix& M);
+double cofactor(const NumericMatrix& M, int row, int col);
 
-UniPolynom newtonInterpolation(std::vector<float> X, std::vector<float> Y);
+UniPolynom newtonInterpolation(const std::vector<double>& X, const std::vector<double>& Y);
+
+// DCEI Determinants
+UniPolynom dceiDet(UniMatrix M);
+UniPolynom dceiComplexDet(UniMatrix M);
