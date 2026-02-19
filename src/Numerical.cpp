@@ -163,3 +163,54 @@ UniPolynom newtonInterpolation(const std::vector<double>& X, const std::vector<d
 
     return result;
 }
+
+UniPolynom newtonInterpolationComplex(const std::vector<std::complex<double>>& X, std::vector<std::complex<double>>& Y) {
+    if (X.size() != Y.size()) {
+        throw std::runtime_error("The two set of points need of be of same size!");
+    }
+
+    int n = X.size();
+
+    // divided difference table
+    std::vector<std::vector<std::complex<double>>> divDiff(n, std::vector<std::complex<double>>(n, 0.0));
+
+    //initialising the first column with Y values
+    for (int r = 0; r < n; r++) {
+        divDiff[r][0] = Y[r];
+    }
+
+    // computing divided differences
+    for (int c = 1; c < n; c++) {
+        for (int r = 0; r < n - c; r++) {
+            divDiff[r][c] = (divDiff[r+1][c-1] - divDiff[r][c-1]) / (X[r+c] - X[r]);
+        }
+    }
+
+    // Build result polynomial from divided differences
+    std::vector<std::complex<double>> result = {divDiff[0][0]};
+    std::vector<std::complex<double>> basis = {1.0};
+
+    for (int i = 1; i < n; i++) {
+        // Multiply basis by (s - X[i-1])
+        std::vector<std::complex<double>> new_basis(basis.size()+1);
+        for (int j = 0; j < basis.size(); j++) {
+            new_basis[j] += basis[j] * (-X[i-1]);
+            new_basis[j+1] += basis[j];
+        }
+        basis = new_basis;
+
+        // Add basis * divDiff[0][i] to result
+        for (int j = 0; j < basis.size(); j++) {
+            if (j >= result.size()) result.resize(j+1);
+            result[j] += basis[j] * divDiff[0][i];
+        }
+    }
+
+    // extracting only the real part
+    std::vector<float> real_coeffs;
+    for (auto& c : result) {
+        real_coeffs.push_back((float)c.real());
+    }
+
+    return UniPolynom(real_coeffs);
+}

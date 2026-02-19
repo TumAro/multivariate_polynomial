@@ -110,3 +110,13 @@ std::vector<double> genSpacedInteger(int n, float int_start) {
 
     return result;
 }
+
+std::vector<std::complex<double>> genSpacedComplex(int n, std::complex<double> num_start) {
+    std::vector<std::complex<double>> result(n);
+    std::complex<double> i_unit(0,1);
+    for (int i = 0; i < n; i++) {
+        result[i] = num_start + (double)i*i_unit;
+    }
+
+    return result;
+}

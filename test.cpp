@@ -144,6 +144,10 @@ int main() {
     UniPolynom dcei4 = dceiDet(Mat4);
     dcei4.print();
     lineEnd();
+    std::cout << "DCEIC:  ";
+    UniPolynom dceicomp = dceiComplexDet(Mat4);
+    dceicomp.print();
+    lineEnd();
 
     Log("TEST: uni Matrix - 3x3 Characteristic polynomial style");
     UniMatrix Mat5(3,3);

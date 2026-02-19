@@ -84,6 +84,7 @@ std::complex<double> determinant(const ComplexMatrix& M);
 std::complex<double> cofactor(const ComplexMatrix& M, int row, int col);
 
 UniPolynom newtonInterpolation(const std::vector<double>& X, const std::vector<double>& Y);
+UniPolynom newtonInterpolationComplex(const std::vector<std::complex<double>>& X, std::vector<std::complex<double>>& Y);
 
 // DCEI Determinants
 UniPolynom dceiDet(UniMatrix M);
