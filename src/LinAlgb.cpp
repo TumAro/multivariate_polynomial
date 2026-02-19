@@ -27,6 +27,18 @@ NumericMatrix UniMatrix::operator()(float x) const {
     return M;
 }
 
+ComplexMatrix UniMatrix::operator()(std::complex<double> x) const {
+    ComplexMatrix M(this->rows, this->cols);
+
+    for (int r = 0; r < this->rows; r++) {
+        for (int c = 0; c < this->cols; c++){
+            M.matrix[r][c] = (*this)[r][c](x);
+        }
+    }
+
+    return M;
+}
+
 // trace of matrix
 UniPolynom UniMatrix::trace() {
     _check_square();

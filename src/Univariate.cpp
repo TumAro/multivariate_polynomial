@@ -60,6 +60,16 @@ float UniPolynom::operator()(float x) const {
     return result;
 }
 
+std::complex<double> UniPolynom::operator()(std::complex<double> x) const {
+    std::complex<double> result = 0;
+
+    for (int i = 0; i < (*this).degree()+1; i++) {
+        result += (double)coeffs[i] * pow(x, i);
+    }
+    
+    return result;
+}
+
 // setter
 UniPolynom& UniPolynom::operator=(const std::vector<float>& vect) {
     this->coeffs = vect;

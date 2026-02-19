@@ -5,11 +5,14 @@
 #include <iostream>
 #include <map>
 #include <random>
+#include <complex>
 
 #include "polynomial.h"
 #include "utils.h"
 
-class NumericMatrix;  // Forward declaration
+// Forward declaration
+class NumericMatrix;
+class ComplexMatrix;
 class UniMatrix;
 
 class UniMatrix {
@@ -26,6 +29,7 @@ public:
     std::vector<UniPolynom>& operator[](int i) {return matrix[i];}
     std::vector<UniPolynom> operator[](int i) const {return matrix[i];}
     NumericMatrix operator()(float x) const;
+    ComplexMatrix operator()(std::complex<double> x) const;
 
     // Member functions
     UniPolynom trace();
@@ -55,12 +59,29 @@ class NumericMatrix {
     
 };
 
+// Complex Matrix Class
+class ComplexMatrix {
+    public:
+    int rows, cols;
+    std::vector<std::vector<std::complex<double>>> matrix;
+    ComplexMatrix(int r, int c);
+    
+    ComplexMatrix submatrix(int skip_r, int skip_c) const;
+    std::complex<double> det2x2() const;
+    
+    private:
+    void _check_square() const;
+    
+};
+
 
 // Linear Algebra Operations
 UniPolynom determinant(const UniMatrix& M);
 UniPolynom cofactor(const UniMatrix& M, int row, int col);
 double determinant(const NumericMatrix& M);
 double cofactor(const NumericMatrix& M, int row, int col);
+std::complex<double> determinant(const ComplexMatrix& M);
+std::complex<double> cofactor(const ComplexMatrix& M, int row, int col);
 
 UniPolynom newtonInterpolation(const std::vector<double>& X, const std::vector<double>& Y);
 

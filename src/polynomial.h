@@ -3,6 +3,7 @@
 #include <vector>
 #include <iostream>
 #include <map>
+#include <complex>
 
 #include "utils.h"
 
@@ -23,6 +24,7 @@ public:
     float& operator[](int n);    // modifiable
     float operator[](int n) const;
     float operator()(float x) const;
+    std::complex<double> operator()(std::complex<double> x) const;
 
     UniPolynom& operator=(const std::vector<float>& vect);
 
