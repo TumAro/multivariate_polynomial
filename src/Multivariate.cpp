@@ -1,32 +1,22 @@
 #include "polynomial.h"
 
 // constructors
-MultPolynom::MultPolynom(int vars, int degree) : vars(vars), deg(degree) {this->setupIndices();}
+MultPolynom::MultPolynom(int vars, int degree) : vars(vars), deg(degree) {
+    coeffs.resize(pow((degree+1), vars));
+}
+
+void MultPolynom::set(std::vector<double> coeff_vec) {
+    int size = min((int)coeff_vec.size(), (int)this->coeffs.size());
+
+    this->coeffs.assign(this->coeffs.size(), 0.0f);
+    for (int i = 0; i < size; i++) {
+        this->coeffs[i] = coeff_vec[i];
+    }
+}
 
 
 // PRIVATE FUNCTIONS ==========================
 
-// GENERATING INDICES UPTO and NOT FOR ONLY
-void MultPolynom::setupIndices() {
-    // // int size = factorial(vars + degree - 1) / ( factorial(vars-1) * factorial(degree) );
-    
-    // generate all monomials from degree 0 to deg
-    for (int d = 0; d <= this->deg; d++) {
-        auto terms = lexorderArray(d, this->vars);
-        exp_table.insert(exp_table.end(), terms.begin(), terms.end());
-    }
-
-
-    // this->exp_table = lexorderArray(this->deg, this->vars);
-    // int size = this->exp_table.size();
-    // this->coeffs.resize(size);
-
-    for (int i = 0; i <  exp_table.size(); i++) {
-        exp_map[exp_table[i]] = i;
-    }
-
-    coeffs.resize(exp_table.size());
-}
 
 // MEMBER FUNCTIONS ===========================
 
@@ -35,103 +25,151 @@ int MultPolynom::degree() const {
     return this->deg;
 }
 
-// show the polynom
 void MultPolynom::print() const {
-    std::cout << (*this).degree() << " - {";
+    std::cout << "(" << vars << "," << deg << ") - {";
     for (const float& val : coeffs) {
         std::cout << val << " ";
     }
-
     std::cout << "}" << std::endl;
 }
 
-// show the exponent map
 void MultPolynom::expPrint() const {
-    std::cout << "Generated sequences:" << std::endl;
-    for (auto& seq : this->exp_table) {
-        std::cout << "(";
-        for (int i = 0; i < seq.size(); i++) {
-            std::cout << seq[i];
-            if (i < seq.size() - 1) std::cout << ", ";
+    for (int idx = 0; idx < (int)coeffs.size(); idx++) {
+        std::vector<int> exp = index2exp(idx);
+        std::cout << "[";
+        for (int i = 0; i < (int)exp.size(); i++) {
+            if (i > 0) std::cout << ",";
+            std::cout << exp[i];
         }
-        std::cout << "), ";
+        std::cout << "]: " << coeffs[idx] << std::endl;
     }
-    std::cout << std::endl;
 }
 
-// index to exponent
+// index to exp 
 std::vector<int> MultPolynom::index2exp(int idx) const {
-    return exp_table[idx];
+    std::vector<int> indices(this->vars);
+
+    int base = this->deg+1;
+    for (int i = 0; i < this->vars; i++) {
+        indices[i] = (idx / (int)pow(base, i)) % base;
+    }
+
+    return indices;
 }
 
-// exponent to index
-int MultPolynom::exp2index(std::vector<int> exp) const {
-    return exp_map.at(exp);
+float& MultPolynom::operator[](std::vector<int> exp) {
+    int idx = 0;
+    if (exp.size() != vars) {
+            throw std::out_of_range("variable count do not match");
+        }
+    for (int i = 0; i < exp.size(); i++) {
+        if (exp[i] < 0 || exp[i] > deg) {
+            throw std::out_of_range("exponent exceeds degree");
+        }
+        idx += exp[i] * pow(deg+1, i);
+    }
+
+    return coeffs[idx];
 }
 
 float MultPolynom::operator[](std::vector<int> exp) const {
-
-    std::vector<int> padded = exp;
-    padded.resize(this->vars, 0);
-
-    auto it = exp_map.find(padded);
-    if (it == exp_map.end()) {
-        return 0.0;
+    int idx = 0;
+    if (exp.size() != vars) return 0.0;
+    for (int i = 0; i < exp.size(); i++) {
+        if (exp[i] < 0 || exp[i] > deg) return 0.0;
+        idx += exp[i] * pow(deg+1, i);
     }
 
-    return coeffs[it->second];
-    // return this->coeffs[this->exp2index(exp)];
+    return coeffs[idx];
 }
-float& MultPolynom::operator[](std::vector<int> exp) {
-    auto it = exp_map.find(exp);
-    if (it == exp_map.end()) {
-        throw std::out_of_range("exponent not in polynom struct");
-    }
-
-    return coeffs[it->second];
-
-    // return this->coeffs[this->exp2index(exp)];
-}
-
-// setter
-MultPolynom& MultPolynom::operator=(std::vector<float> vect) {
-if ( vect.size() > coeffs.size()) {
-        std::cerr << "Error: size mismatch. Vector of size " << vect.size() << " provided for a " << coeffs.size() << " sized polynomial." << std::endl;
-        return *this;
-    }
-
-    // Copy provided values
-    for (int i = 0; i < vect.size(); i++) {
-        coeffs[i] = vect[i];
-    }
-    
-    // Pad rest with zeros
-    for (int i = vect.size(); i < coeffs.size(); i++) {
-        coeffs[i] = 0.0;
-    }
-
-    return *this;
-}
+ 
 
 // ALGEBRAIC OPERATORS
-
 MultPolynom MultPolynom::operator+(const MultPolynom& P2) const {
     int vars = max(this->vars, P2.vars);
-    int deg = max(this->deg, P2.deg);
+    int deg = max(this->deg, P2.degree());
 
-    MultPolynom P(vars, deg);
+    MultPolynom result = MultPolynom(vars, deg);
 
-    for (int i = 0; i < P.coeffs.size(); i++) {
-        auto exp = P.index2exp(i);
-        P.coeffs[i] = (*this)[exp] + P2[exp];
+    for (int idx = 0; idx < result.coeffs.size(); idx++) {
+        std::vector<int> exp = result.index2exp(idx);
+        result.coeffs[idx] = (*this)[exp] + P2[exp];
     }
 
-    return P;
+    return result;
 }
 
 MultPolynom MultPolynom::operator+(float a) const {
-    MultPolynom P = *this;
-    std::vector<int> zero(this->vars, 0);
-    P[zero] += a;
-    return P;
+    MultPolynom result = (*this);
+    result.coeffs[0] = result.coeffs[0] + a;
+    return result;
+}
+
+MultPolynom MultPolynom::operator-() const {
+    MultPolynom result(this->vars, this->deg);
+
+    for (int i = 0; i < result.coeffs.size(); i++) {
+        result.coeffs[i] = -1*this->coeffs[i];
+    }
+
+    return result;
+}
+
+MultPolynom MultPolynom::operator-(const MultPolynom& P2) const {
+    MultPolynom sub = -P2;
+    MultPolynom result = (*this) + sub;
+
+    return result;
+}
+
+MultPolynom MultPolynom::operator-(float a) const {
+    MultPolynom result = (*this);
+    result.coeffs[0] = result.coeffs[0] - a;
+    return result;
+}
+
+MultPolynom MultPolynom::operator*(float a) const {
+    MultPolynom result(this->vars, this->deg);
+
+    for (int i = 0; i < result.coeffs.size(); i++) {
+        result.coeffs[i] = this->coeffs[i]*a;
+    }
+
+    return result;
+}
+
+MultPolynom MultPolynom::operator*(const MultPolynom& P2) const {
+    int vars = max(this->vars, P2.vars);
+    int deg = this->deg + P2.degree();
+    MultPolynom result(vars, deg);
+
+    for (int i = 0; i < this->coeffs.size(); i++) {
+        std::vector<int> exp_a = (*this).index2exp(i);
+        
+        for (int j = 0; j < P2.coeffs.size(); j++) {
+            std::vector<int> exp_b = P2.index2exp(j);
+
+            std::vector<int> exp_c = vecAdd(exp_a, exp_b);
+            exp_c.resize(vars);
+            result[exp_c] += this->coeffs[i] * P2.coeffs[j];
+        }
+    }
+
+    return result;
+}
+
+//  ==================================
+//  FREE FUNCTIONS
+//  ==================================
+MultPolynom operator+(float f, const MultPolynom& P2) {
+    return P2 + f;
+}
+
+MultPolynom operator-(float f, const MultPolynom& P2) {
+    MultPolynom sub = -P2;
+    return sub + f;
+}
+
+MultPolynom operator*(float f, const MultPolynom& P2) {
+    return P2 * f;
 }

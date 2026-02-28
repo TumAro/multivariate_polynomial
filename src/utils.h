@@ -23,3 +23,5 @@ std::vector<float> genUniformArray(int n, float int_start, float int_end);
 std::vector<double> genSpacedInteger(int n, float int_start = 0);
 
 std::vector<std::complex<double>> genSpacedComplex(int n, std::complex<double> num_start = std::complex<double>(0,0));
+
+std::vector<int> vecAdd(std::vector<int> u, std::vector<int> v);

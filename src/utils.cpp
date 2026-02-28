@@ -120,3 +120,16 @@ std::vector<std::complex<double>> genSpacedComplex(int n, std::complex<double> n
 
     return result;
 }
+
+std::vector<int> vecAdd(std::vector<int> u, std::vector<int> v) {
+    int size = max(u.size(),v.size());
+    std::vector<int> result(size);
+
+    for (int i = 0; i < size; i++) {
+        int a = (i < u.size()) ? u[i] : 0;
+        int b = (i < v.size()) ? v[i] : 0;
+        result[i] = a + b;
+    }
+
+    return result;
+}

@@ -2,7 +2,6 @@
 
 #include <vector>
 #include <iostream>
-#include <map>
 #include <complex>
 
 #include "utils.h"
@@ -28,7 +27,7 @@ public:
 
     UniPolynom& operator=(const std::vector<float>& vect);
 
-    //member operators
+    //algebraic operators
     UniPolynom operator+(const UniPolynom& P2) const;
     UniPolynom operator+(float a) const;
 
@@ -52,46 +51,31 @@ class MultPolynom {
     int vars;
     int deg;
 
-    std::vector<std::vector<int>> exp_table;  // index -> exponents
-    std::map<std::vector<int>, int> exp_map;  // exponents -> index
-
-    public:
+public:
     MultPolynom(int vars, int degree);
-    
-    //member operators
+
     int degree() const;
+    void set(std::vector<double> coeff_vec);
     void print() const;
     void expPrint() const;
-    
     std::vector<int> index2exp(int idx) const;
-    int exp2index(std::vector<int> exp) const;
-    
-    // indexing and evaluation
-    float& operator[](std::vector<int> exp);    // modifiable
-    float operator[](std::vector<int> exp) const;
-    float operator()(float x_val, float y_val, ...) const;
-    
-    MultPolynom& operator=(std::vector<float> vect);
-    
-    // algebraic operators
+
+    float& operator[](std::vector<int> exp);
+    float  operator[](std::vector<int> exp) const;
+
+    //algebraic operators
     MultPolynom operator+(const MultPolynom& P2) const;
     MultPolynom operator+(float a) const;
-    
+
     MultPolynom operator-() const;
     MultPolynom operator-(const MultPolynom& P2) const;
     MultPolynom operator-(float a) const;
-    
-    MultPolynom operator*(const MultPolynom& P2) const;
+
     MultPolynom operator*(float a) const;
-    
-    private:
-           // Creates exp -> index map
-           void setupIndices();
+    MultPolynom operator*(const MultPolynom& P2) const;
 };
 
-// FREE FUNCTION - Multivariate Polynomial
-// MultPolynom operator+(float f, const UniPolynom& P2);
-// MultPolynom operator-(float f, const UniPolynom& P2);
-// MultPolynom operator*(float f, const UniPolynom& P2);
-
-
+// FREE FUNCTION - Univariate Polynomial
+MultPolynom operator+(float f, const MultPolynom& P2);
+MultPolynom operator-(float f, const MultPolynom& P2);
+MultPolynom operator*(float f, const MultPolynom& P2);
