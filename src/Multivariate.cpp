@@ -45,6 +45,30 @@ void MultPolynom::expPrint() const {
     }
 }
 
+// evaluate
+float MultPolynom::operator()(std::vector<float> vals) const {
+    if ((int)vals.size() != this->vars) {
+        std::cerr << "Invalid input vector size. SIZE: " << this->vars << ", GIVEN: " << vals.size() << std::endl;
+        return 0.0f;
+    }
+
+    float result = this->coeffs[0];
+
+    for (size_t i = 1; i < this->coeffs.size(); i++) {
+        if (this->coeffs[i] != 0) {
+            std::vector<int> exps = index2exp(i);
+            float monomial = 1.0f;
+            for (int var_i = 0; var_i < this->vars; var_i++) {
+                monomial *= pow(vals[var_i], exps[var_i]);
+            }
+            result += monomial * this->coeffs[i];
+        }
+    }
+
+    return result;
+}
+
+
 // index to exp 
 std::vector<int> MultPolynom::index2exp(int idx) const {
     std::vector<int> indices(this->vars);

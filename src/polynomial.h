@@ -60,6 +60,7 @@ public:
     void expPrint() const;
     std::vector<int> index2exp(int idx) const;
 
+    float operator()(std::vector<float> vals) const;
     float& operator[](std::vector<int> exp);
     float  operator[](std::vector<int> exp) const;
 
