@@ -25,12 +25,6 @@
 
 [ ] - setDegree(int new_deg): re-encode all coefficients into new base-(new_deg+1) array
 
-## Display
-[ ] - expPrint()  iterate all monomials using odometer pattern (no decode needed)
-         start: exp = [0,0,...,0]
-         tick:  increment exp[0]; if exp[0] > deg, reset to 0, carry into exp[1], etc.
-[ ] - print()  show as monomials (e.g. "2x^2*y" not just raw coeffs)
-
 ## Arithmetic
 [x] - Addition
     [x] with polynom
@@ -44,7 +38,7 @@
     [x] with polynom
 
 ## Evaluation
-[ ] - operator()(x1, x2, ..., xn)  plug in values for all variables
+[x] - operator()(x1, x2, ..., xn)  plug in values for all variables
 
 # Lin algebra:
 [ ] - addition
@@ -57,5 +51,5 @@
 [ ] - eigen?
 
 ## Determinant
-[ ] - univariate
-[ ] - Multivariate
+[x] - univariate
+[x] - Multivariate

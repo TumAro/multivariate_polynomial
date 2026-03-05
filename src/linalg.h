@@ -14,6 +14,7 @@
 class NumericMatrix;
 class ComplexMatrix;
 class UniMatrix;
+class MultMatrix;
 
 class UniMatrix {
 public:
@@ -35,6 +36,35 @@ public:
     UniPolynom trace();
     UniMatrix submatrix(int skip_r, int skip_c) const;
     UniPolynom det2x2() const;
+    void print();
+    void buildDegreeMat();
+    int degree();
+
+private:
+    void _check_square() const;
+};
+
+class MultMatrix {
+public:
+    int rows, cols;
+    int d = -1;
+    std::vector<std::vector<MultPolynom>> matrix;
+    std::vector<std::vector<int>> degree_matrix;
+
+    // Constructor
+    MultMatrix(int r, int c);                           // OLD - keep for compatibility (creates 1-var, deg-0 polys)
+    MultMatrix(int r, int c, int vars, int degree);     // NEW - recommended (all cells same structure)
+
+    // Accessories
+    std::vector<MultPolynom>& operator[](int i) {return matrix[i];}
+    std::vector<MultPolynom> operator[](int i) const {return matrix[i];}
+    NumericMatrix operator()(std::vector<float> vals) const;
+    ComplexMatrix operator()(std::vector<std::complex<double>> vals) const;
+
+    // Member functions
+    MultPolynom trace();
+    MultMatrix submatrix(int skip_r, int skip_c) const;
+    MultPolynom det2x2() const;
     void print();
     void buildDegreeMat();
     int degree();
@@ -74,10 +104,11 @@ class ComplexMatrix {
     
 };
 
-
 // Linear Algebra Operations
 UniPolynom determinant(const UniMatrix& M);
 UniPolynom cofactor(const UniMatrix& M, int row, int col);
+MultPolynom determinant(const MultMatrix& M);
+MultPolynom cofactor(const MultMatrix& M, int row, int col);
 double determinant(const NumericMatrix& M);
 double cofactor(const NumericMatrix& M, int row, int col);
 std::complex<double> determinant(const ComplexMatrix& M);

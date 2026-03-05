@@ -24,6 +24,7 @@ UniPolynom dceiDet(UniMatrix M) {
 }
 
 
+
 /*
 Step 1: Find degree of the Polynom Matrix
 Step 2: Generate n = ceil(n/2) many complex values of x
@@ -52,3 +53,4 @@ UniPolynom dceiComplexDet(UniMatrix M) {
     UniPolynom result = newtonInterpolationComplex(X, Y);
     return result;
 }
+

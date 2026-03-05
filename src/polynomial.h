@@ -52,6 +52,7 @@ class MultPolynom {
     int deg;
 
 public:
+    MultPolynom();                      // Default constructor (creates 1-var, degree-0 polynomial)
     MultPolynom(int vars, int degree);
 
     int degree() const;
@@ -61,6 +62,7 @@ public:
     std::vector<int> index2exp(int idx) const;
 
     float operator()(std::vector<float> vals) const;
+    std::complex<double> operator()(std::vector<std::complex<double>> x) const;
     float& operator[](std::vector<int> exp);
     float  operator[](std::vector<int> exp) const;
 

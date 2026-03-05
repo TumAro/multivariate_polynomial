@@ -51,22 +51,28 @@ float UniPolynom::operator[](int n) const {
 
 // evaluate at value of variable
 float UniPolynom::operator()(float x) const {
-    float result = 0;
+    int deg = (*this).degree();
+    if (deg < 0) return 0.0f;
 
-    for (int i = 0; i < (*this).degree()+1; i++) {
-        result += coeffs[i] * pow(x, i);
+    // Horner's method: P(x) = a_n + x(a_{n-1} + x(a_{n-2} + ...))
+    float result = coeffs[deg];
+    for (int i = deg - 1; i >= 0; i--) {
+        result = result * x + coeffs[i];
     }
-    
+
     return result;
 }
 
 std::complex<double> UniPolynom::operator()(std::complex<double> x) const {
-    std::complex<double> result = 0;
+    int deg = (*this).degree();
+    if (deg < 0) return std::complex<double>(0, 0);
 
-    for (int i = 0; i < (*this).degree()+1; i++) {
-        result += (double)coeffs[i] * pow(x, i);
+    // Horner's method: P(x) = a_n + x(a_{n-1} + x(a_{n-2} + ...))
+    std::complex<double> result = (double)coeffs[deg];
+    for (int i = deg - 1; i >= 0; i--) {
+        result = result * x + (double)coeffs[i];
     }
-    
+
     return result;
 }
 

@@ -17,14 +17,21 @@ int min(int a, int b) {
 }
 
 double pow(double base, int exp) {
-    if (exp == 0) return 1;
-    
-    double result = 1;
+    if (exp == 0) return 1.0;
+
     bool neg = exp < 0;
     if (neg) exp = -exp;
 
-    for (int i = 0; i < exp; i++) {
-        result *= base;
+    double result = 1.0;
+    double current = base;
+
+    // Exponentiation by squaring: O(log n)
+    while (exp > 0) {
+        if (exp & 1) {  // If exp is odd
+            result *= current;
+        }
+        current *= current;  // Square the base
+        exp >>= 1;           // Divide exp by 2
     }
 
     return neg ? 1.0/result : result;

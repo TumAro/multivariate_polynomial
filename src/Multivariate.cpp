@@ -1,5 +1,10 @@
 #include "polynomial.h"
 
+// Default constructor - creates minimal valid polynomial (1 var, degree 0)
+MultPolynom::MultPolynom() : vars(1), deg(0) {
+    coeffs.resize(1, 0.0f);  // Single coefficient initialized to 0
+}
+
 // constructors
 MultPolynom::MultPolynom(int vars, int degree) : vars(vars), deg(degree) {
     coeffs.resize(pow((degree+1), vars));
@@ -48,26 +53,65 @@ void MultPolynom::expPrint() const {
 // evaluate
 float MultPolynom::operator()(std::vector<float> vals) const {
     if ((int)vals.size() != this->vars) {
-        std::cerr << "Invalid input vector size. SIZE: " << this->vars << ", GIVEN: " << vals.size() << std::endl;
+        std::cerr << "Invalid input vector size. SIZE: " << this->vars
+                  << ", GIVEN: " << vals.size() << std::endl;
         return 0.0f;
     }
 
     float result = this->coeffs[0];
+    const int base = this->deg + 1;
 
     for (size_t i = 1; i < this->coeffs.size(); i++) {
-        if (this->coeffs[i] != 0) {
-            std::vector<int> exps = index2exp(i);
-            float monomial = 1.0f;
-            for (int var_i = 0; var_i < this->vars; var_i++) {
-                monomial *= pow(vals[var_i], exps[var_i]);
+        if (this->coeffs[i] == 0) continue;  // Early skip
+
+        float monomial = 1.0f;
+        int idx_temp = i;
+
+        // Decode exponents on-the-fly without allocation
+        for (int var_i = 0; var_i < this->vars; var_i++) {
+            int exp = idx_temp % base;
+            if (exp != 0) {  // Skip pow(x, 0) = 1
+                monomial *= pow(vals[var_i], exp);
             }
-            result += monomial * this->coeffs[i];
+            idx_temp /= base;
         }
+
+        result += monomial * this->coeffs[i];
     }
 
     return result;
 }
 
+std::complex<double> MultPolynom::operator()(std::vector<std::complex<double>> vals) const {
+    if ((int)vals.size() != this->vars) {
+        std::cerr << "Invalid input vector size. SIZE: " << this->vars
+                  << ", GIVEN: " << vals.size() << std::endl;
+        return std::complex<double>(0.0, 0.0);
+    }
+
+    std::complex<double> result = (double)this->coeffs[0];
+    const int base = this->deg + 1;
+
+    for (size_t i = 1; i < this->coeffs.size(); i++) {
+        if (this->coeffs[i] == 0.0f) continue;  // Early skip
+
+        std::complex<double> monomial = std::complex<double>(1.0, 0.0);
+        int idx_temp = i;
+
+        // Decode exponents on-the-fly without allocation
+        for (int var_i = 0; var_i < this->vars; var_i++) {
+            int exp = idx_temp % base;
+            if (exp != 0) {  // Skip pow(x, 0) = 1
+                monomial *= std::pow(vals[var_i], exp);
+            }
+            idx_temp /= base;
+        }
+
+        result += monomial * (double)this->coeffs[i];
+    }
+
+    return result;
+}
 
 // index to exp 
 std::vector<int> MultPolynom::index2exp(int idx) const {
