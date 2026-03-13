@@ -73,6 +73,16 @@ double NumericMatrix::det2x2() const {
     return matrix[0][0] * matrix[1][1] - matrix[0][1] * matrix[1][0];
 }
 
+void NumericMatrix::print() const {
+    for (int r = 0; r < rows; r++) {
+        std::cout << "| ";
+        for (int c = 0; c < cols; c++) {
+            std::cout << matrix[r][c] << "  ";
+        }
+        std::cout << "|" << std::endl;
+    }
+}
+
 std::complex<double> ComplexMatrix::det2x2() const {
     _check_square();
     if (rows != 2) {

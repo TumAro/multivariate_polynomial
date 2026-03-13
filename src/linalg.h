@@ -81,8 +81,12 @@ class NumericMatrix {
     std::vector<std::vector<double>> matrix;
     NumericMatrix(int r, int c);
     
+    std::vector<double>& operator[](int i) {return matrix[i];}
+    std::vector<double> operator[](int i) const {return matrix[i];}
+
     NumericMatrix submatrix(int skip_r, int skip_c) const;
     double det2x2() const;
+    void print() const;
     
     private:
     void _check_square() const;
@@ -120,3 +124,7 @@ UniPolynom newtonInterpolationComplex(const std::vector<std::complex<double>>& X
 // DCEI Determinants
 UniPolynom dceiDet(UniMatrix M);
 UniPolynom dceiComplexDet(UniMatrix M);
+
+// Sylvester Matrix
+NumericMatrix sylvesterMat(const UniPolynom& F, const UniPolynom& G);
+MultMatrix sylvesterMat(const MultPolynom& F, const MultPolynom& G);
