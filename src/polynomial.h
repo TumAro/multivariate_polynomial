@@ -6,6 +6,10 @@
 
 #include "utils.h"
 
+// forward declaration
+class UniPolynom;
+class MultPolynom;
+
 class UniPolynom {
     // the actual coeff vector
     std::vector<float> coeffs;
@@ -14,6 +18,8 @@ public:
     UniPolynom();
     UniPolynom(int n);
     UniPolynom(std::vector<float> c);
+    UniPolynom(std::initializer_list<float> c) : UniPolynom(std::vector<float>(c)) {}
+    explicit UniPolynom(const MultPolynom& P); // converts MultPolynom(vars=1) to UniPolynom
 
     //member functions
     int degree() const;
@@ -65,6 +71,8 @@ public:
     std::complex<double> operator()(std::vector<std::complex<double>> x) const;
     float& operator[](std::vector<int> exp);
     float  operator[](std::vector<int> exp) const;
+    MultPolynom coeff(std::vector<int> partial) const;
+    int numVars() const { return vars; }
 
     //algebraic operators
     MultPolynom operator+(const MultPolynom& P2) const;

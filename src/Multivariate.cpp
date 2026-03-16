@@ -31,11 +31,9 @@ int MultPolynom::degree() const {
 }
 
 void MultPolynom::print() const {
-    std::cout << "(" << vars << "," << deg << ") - {";
-    for (const float& val : coeffs) {
-        std::cout << val << " ";
-    }
-    std::cout << "}" << std::endl;
+    std::cout << "{";
+    for (const float& val : coeffs) std::cout << val << " ";
+    std::cout << "}";
 }
 
 void MultPolynom::expPrint() const {
@@ -138,6 +136,29 @@ float& MultPolynom::operator[](std::vector<int> exp) {
     }
 
     return coeffs[idx];
+}
+
+MultPolynom MultPolynom::coeff(std::vector<int> partial) const {
+    int fixed = partial.size();
+    int remaining = vars - fixed;
+    MultPolynom result(remaining > 0 ? remaining : 1, remaining > 0 ? deg : 0);
+
+    for (int idx = 0; idx < (int)coeffs.size(); idx++) {
+        auto exp = index2exp(idx);
+
+        bool match = true;
+        for (int i = 0; i < fixed; i++)
+            if (exp[i] != partial[i]) { match = false; break; }
+        if (!match) continue;
+
+        std::vector<int> rem;
+        for (int i = fixed; i < vars; i++)
+            rem.push_back(exp[i]);
+
+        if (rem.empty()) result.coeffs[0] = coeffs[idx];
+        else             result[rem]       = coeffs[idx];
+    }
+    return result;
 }
 
 float MultPolynom::operator[](std::vector<int> exp) const {

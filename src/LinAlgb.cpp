@@ -22,6 +22,13 @@ UniMatrix::UniMatrix(int r, int c) : rows(r), cols(c) {
     matrix.resize(r, std::vector<UniPolynom>(c));
 }
 
+UniMatrix::UniMatrix(const MultMatrix& M) : rows(M.rows), cols(M.cols) {
+    matrix.resize(rows, std::vector<UniPolynom>(cols));
+    for (int i = 0; i < rows; i++)
+        for (int j = 0; j < cols; j++)
+            matrix[i][j] = UniPolynom(M[i][j]); // throws if entry vars != 1
+}
+
 // OLD constructor - kept for backward compatibility
 MultMatrix::MultMatrix(int r, int c) : rows(r), cols(c) {
     // TODO: MIGRATE to MultMatrix(r, c, vars, degree) for proper initialization

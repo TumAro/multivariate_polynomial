@@ -33,6 +33,10 @@ Step 4: Store the determinant and the conujgate of the determinant of those matr
 Step 5: Using these (xi, yi) interpolate to find an approximate polynomial using the real part of the result.
 */
 
+UniPolynom dceiComplexDet(MultMatrix M) {
+    return dceiComplexDet(UniMatrix(M));
+}
+
 UniPolynom dceiComplexDet(UniMatrix M) {
     int n = M.degree() +1;
     int ceil = (n+1)/2;
@@ -76,6 +80,26 @@ NumericMatrix sylvesterMat(const UniPolynom& F, const UniPolynom& G) {
     for (row = 0; row < n; row++) {
         for (int idx = 0; idx <= m; idx++) {
             SM[m + row][row + idx] = G[m-idx];
+        }
+    }
+
+    return SM;
+}
+
+MultMatrix sylvesterMat(const MultPolynom& F, const MultPolynom& G) {
+    int n = F.degree(); int m = G.degree();
+    int entry_vars = F.numVars() - 1;
+    MultMatrix SM(m+n, m+n, entry_vars > 0 ? entry_vars : 1, n);
+
+    int row;
+    for (row = 0; row < m; row++) {
+        for (int idx = 0; idx <= n; idx++) {
+            SM[row][row + idx] = F.coeff({n-idx});
+        }
+    }
+    for (row = 0; row < n; row++) {
+        for (int idx = 0; idx <= m; idx++) {
+            SM[m + row][row + idx] = G.coeff({m-idx});
         }
     }
 

@@ -4,6 +4,11 @@
 UniPolynom::UniPolynom() : coeffs({0}) {}
 UniPolynom::UniPolynom(int n) { coeffs.resize(n, 0.0f); }
 UniPolynom::UniPolynom(std::vector<float> c) : coeffs(std::move(c)) {}
+UniPolynom::UniPolynom(const MultPolynom& P) {
+    if (P.numVars() != 1) throw std::invalid_argument("MultPolynom must have 1 variable to convert to UniPolynom");
+    for (int k = 0; k <= P.degree(); k++)
+        coeffs.push_back(P[{k}]);
+}
 
 // get degree of polynom
 int UniPolynom::degree() const {
@@ -28,12 +33,23 @@ float UniPolynom::intercept() const {
 
 // show the polynom
 void UniPolynom::print() {
-    std::cout << (*this).degree() << " - {";
-    for (const float& val : coeffs) {
-        std::cout << val << " ";
-    }
+    bool first = true;
+    for (int i = 0; i < (int)coeffs.size(); i++) {
+        float c = coeffs[i];
+        if (c == 0) continue;
 
-    std::cout << "}";
+        if (!first) std::cout << (c > 0 ? " + " : " - ");
+        else if (c < 0) std::cout << "-";
+
+        float abs_c = std::abs(c);
+        if (i == 0 || abs_c != 1.0f) std::cout << abs_c;
+        if (i > 0) std::cout << "x";
+        if (i > 1) std::cout << "^" << i;
+
+        first = false;
+    }
+    if (first) std::cout << "0";
+    std::cout << "\n";
 }
 
 // get coeff at an index

@@ -25,6 +25,7 @@ public:
 
     // Constructor
     UniMatrix(int r, int c);
+    UniMatrix(const MultMatrix& M);
 
     // Accessories
     std::vector<UniPolynom>& operator[](int i) {return matrix[i];}
@@ -124,6 +125,7 @@ UniPolynom newtonInterpolationComplex(const std::vector<std::complex<double>>& X
 // DCEI Determinants
 UniPolynom dceiDet(UniMatrix M);
 UniPolynom dceiComplexDet(UniMatrix M);
+UniPolynom dceiComplexDet(MultMatrix M);
 
 // Sylvester Matrix
 NumericMatrix sylvesterMat(const UniPolynom& F, const UniPolynom& G);
