@@ -21,16 +21,6 @@ int main() {
     UniPolynom res1 = dceiComplexDet(MSM1);
     std::cout << "resultant (expect -2y): "; res1.print();
 
-
-    Log("multivariate sylvester: F=x-y, G=x^2-1");
-    MultPolynom MF2(2, 1), MG2(2, 2);
-    MF2.set({0, 1, -1, 0});              // x - y
-    MG2.set({-1, 0, 1, 0, 0, 0, 0, 0, 0}); // x^2 - 1
-    MultMatrix MSM2 = sylvesterMat(MF2, MG2);
-    MSM2.print();
-    UniPolynom res2 = dceiComplexDet(MSM2);
-    std::cout << "resultant (expect y^2-1): "; res2.print();
-
     Log("second order polynom");
     MultPolynom M(2, 1);
     M.set({0,1,1,0}); // (x+y)
@@ -40,5 +30,27 @@ int main() {
     std::cout << "M^3: "; M_cube.print();  std::cout  << std::endl;
     MultMatrix sylv = sylvesterMat(M_square, M_cube);
     sylv.print();
+
+    Log("4th order polynom");
+    MultPolynom X(2, 4); // P1: 3x⁴ - 7x³y + 2x²y² + 5xy³ - y⁴ + 4x³ - x²y + 6xy² - 3y³ + x² - 2xy + y² - 5x + 8y - 1
+    MultPolynom Y(2, 4); // P2: -2x⁴ + 5x³y - x²y² - 4xy³ + 6y⁴ - 3x³ + 7x²y - 2xy² + y³ - x² + 4xy - 6y² + 2x - y + 9
+    X.set({
+            -1,  8,  1, -3, -1,   // (0,0)..(0,4)
+            -5, -2,  6,  5,       // (1,0)..(1,3)
+            1, -1,  2,           // (2,0)..(2,2)
+            4, -7,               // (3,0)..(3,1)
+            3                    // (4,0)
+    });
+    Y.set({
+        9, -1, -6,  1,  6,   // (0,0)..(0,4)
+        2,  4, -2, -4,       // (1,0)..(1,3)
+        -1,  7, -1,           // (2,0)..(2,2)
+        -3,  5,               // (3,0)..(3,1)
+        -2                    // (4,0)
+    });
+    X.print(); std::cout << "\n";
+    Y.print(); std::cout << "\n";
+    MultMatrix fourth_sylv = sylvesterMat(X, Y);
+    fourth_sylv.print();
 
 }
