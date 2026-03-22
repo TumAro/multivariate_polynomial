@@ -160,19 +160,28 @@ UniPolynom UniPolynom::operator*(const UniPolynom& other) const {
 
     return SUM(temp for all i)
     */
-    bool smaller = (*this).degree() < other.degree();
-    UniPolynom P = (smaller) ? (*this) : other;
-    UniPolynom Q = (!smaller) ? (*this) : other;
+    // ! redundant code
+    // bool smaller = (*this).degree() < other.degree();
+    // UniPolynom P = (smaller) ? (*this) : other;
+    // UniPolynom Q = (!smaller) ? (*this) : other;
 
-    UniPolynom result(P.degree()+ Q.degree()+1);
+    // UniPolynom result(P.degree()+ Q.degree()+1);
 
-    result = result + P[0]*Q;
-    for (int i = 1; i < P.degree()+1; i++) {
-        float coeff = P[i];
-        std::vector<float> joinedVector = joinVectors(std::vector<float>(i), Q.coeffs);
-        UniPolynom joinedPoly(joinedVector);
+    // result = result + P[0]*Q;
+    // for (int i = 1; i < P.degree()+1; i++) {
+    //     float coeff = P[i];
+    //     std::vector<float> joinedVector = joinVectors(std::vector<float>(i), Q.coeffs);
+    //     UniPolynom joinedPoly(joinedVector);
 
-        result = result + coeff*joinedPoly;
+    //     result = result + coeff*joinedPoly;
+    // }
+
+    int deg = this->degree() + other.degree();
+    UniPolynom result(deg+1);
+    for (int i = 0; i <= this->degree(); i++) {
+        for (int j = 0; j <= other.degree(); j++) {
+            result[i+j] += (*this)[i] * other[j];
+        }
     }
     return result;
 }
