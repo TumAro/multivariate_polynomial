@@ -163,6 +163,11 @@ MultPolynom MultPolynom::coeff(std::vector<int> partial) const {
 
 float MultPolynom::operator[](std::vector<int> exp) const {
     int idx = 0;
+    if ((int)exp.size() > vars) {
+        for (int i = vars; i < (int)exp.size(); i++)
+            if (exp[i] != 0) return 0.0;
+        exp.resize(vars);
+    }
     if (exp.size() != vars) return 0.0;
     for (int i = 0; i < exp.size(); i++) {
         if (exp[i] < 0 || exp[i] > deg) return 0.0;
