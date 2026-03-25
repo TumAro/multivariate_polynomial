@@ -108,6 +108,37 @@ double determinant(const NumericMatrix& M) {
     return result;
 }
 
+std::complex<double> determinantLU(const ComplexMatrix& M) {
+    int n = M.rows;
+    std::vector<std::vector<std::complex<double>>> A = M.matrix;
+    std::complex<double> det = 1.0;
+
+    for (int i = 0; i < n; i++) {
+        int pivot = i;
+        double max_abs = std::abs(A[i][i]);
+        for (int k = i+1; k < n; k++) {
+            if (std::abs(A[k][i]) > max_abs) {
+                max_abs = std::abs(A[k][i]);
+                pivot = k;
+            }
+        }
+        if (pivot != i) {
+            std::swap(A[i], A[pivot]);
+            det *= -1.0;
+        }
+
+        if (std::abs(A[i][i]) < 1e-12) return 0.0;
+
+        det *= A[i][i];
+        for (int j = i+1; j < n; j++) {
+            std::complex<double> factor = A[j][i] / A[i][i];
+            for (int k = i; k < n; k++)
+                A[j][k] -= factor * A[i][k];
+        }
+    }
+    return det;
+}
+
 std::complex<double> determinant(const ComplexMatrix& M) {
     if (M.rows == 1) {
         return M.matrix[0][0];
@@ -117,11 +148,13 @@ std::complex<double> determinant(const ComplexMatrix& M) {
         return M.det2x2();
     }
 
-    std::complex<double> result;
-    for (int j = 0; j < M.cols; j++) {
-        result = result + M.matrix[0][j] * cofactor(M, 0, j);
-    }
-    return result;
+    // ! cofactor - O(n!)
+    // std::complex<double> result;
+    // for (int j = 0; j < M.cols; j++) {
+    //     result = result + M.matrix[0][j] * cofactor(M, 0, j);
+    // }
+    // return result;
+    return determinantLU(M);
 }
 
 // cofactor function

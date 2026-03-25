@@ -117,6 +117,7 @@ MultPolynom cofactor(const MultMatrix& M, int row, int col);
 double determinant(const NumericMatrix& M);
 double cofactor(const NumericMatrix& M, int row, int col);
 std::complex<double> determinant(const ComplexMatrix& M);
+std::complex<double> determinantLU(const ComplexMatrix& M);
 std::complex<double> cofactor(const ComplexMatrix& M, int row, int col);
 
 UniPolynom newtonInterpolation(const std::vector<double>& X, const std::vector<double>& Y);
