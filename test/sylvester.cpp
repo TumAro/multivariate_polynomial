@@ -78,13 +78,25 @@ int main() {
     M.print(); std::cout << "\n";
     N.print(); std::cout << "\n";
     MultMatrix sixth_sylv = sylvesterMat(M, N);
-    for (auto i : sixth_sylv.shape()) {
-        std::cout << i << ", ";
-    }
+    // for (auto i : sixth_sylv.shape()) {
+    //     std::cout << i << ", ";
+    // }
+    UniMatrix uni(sixth_sylv);
+    NumericMatrix numeric = uni(13);
+    numeric.print();
     std::cout <<"\n";
-    UniPolynom resultant = dceiComplexDet(sixth_sylv);
-    std::cout << "determinant: ";
-    resultant.print();
+    UniPolynom resultant_dcei = dceiDet(sixth_sylv);
+    UniPolynom resultant_dceic = dceiComplexDet(sixth_sylv);
     
 
+    // resultant_dcei.print();
+    // std::cout << "dcei on sylvester R(1.0) = " << resultant_dcei(1.0) << "\n";
+
+    // resultant_dceic.print();
+    std::cout << "dceic on sylvester R(13) = " << resultant_dceic(13);
+
+    
+    // ComplexMatrix cmat = uni(std::complex<double>(1.0, 0.0));
+    // std::cout << "Numeric determinant at x = 1.0 = " << determinantLU(cmat).real() << std::endl;
+    
 }

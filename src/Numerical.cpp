@@ -91,21 +91,44 @@ std::complex<double> ComplexMatrix::det2x2() const {
     return matrix[0][0] * matrix[1][1] - matrix[0][1] * matrix[1][0];
 }
 
-// separate determinant function
+double determinantLU(const NumericMatrix& M) {
+    int n = M.rows;
+    std::vector<std::vector<double>> A = M.matrix;
+    double det = 1.0;
+
+    for (int i = 0; i < n; i++) {
+        int pivot = i;
+        double max_abs = std::abs(A[i][i]);
+        for (int k = i+1; k < n; k++) {
+            if (std::abs(A[k][i]) > max_abs) {
+                max_abs = std::abs(A[k][i]);
+                pivot = k;
+            }
+        }
+        if (pivot != i) {
+            std::swap(A[i], A[pivot]);
+            det *= -1.0;
+        }
+        if (std::abs(A[i][i]) < 1e-12) return 0.0;
+        det *= A[i][i];
+        for (int j = i+1; j < n; j++) {
+            double factor = A[j][i] / A[i][i];
+            for (int k = i; k < n; k++)
+                A[j][k] -= factor * A[i][k];
+        }
+    }
+    return det;
+}
+
 double determinant(const NumericMatrix& M) {
-    if (M.rows == 1) {
-        return M.matrix[0][0];
-    }
-
-    if (M.rows == 2) {
-        return M.det2x2();
-    }
-
-    double result;
-    for (int j = 0; j < M.cols; j++) {
-        result = result + M.matrix[0][j] * cofactor(M, 0, j);
-    }
-    return result;
+    return determinantLU(M);
+    // if (M.rows == 1) { return M.matrix[0][0]; }
+    // if (M.rows == 2) { return M.det2x2(); }
+    // double result;  // bug: uninitialized
+    // for (int j = 0; j < M.cols; j++) {
+    //     result = result + M.matrix[0][j] * cofactor(M, 0, j);
+    // }
+    // return result;
 }
 
 std::complex<double> determinantLU(const ComplexMatrix& M) {

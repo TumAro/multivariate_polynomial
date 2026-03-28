@@ -7,11 +7,16 @@ Step 3: Evaluate the Matrix at those X points
 Step 4: Store the determinant of those matrices in Y
 Step 5: Using these (xi, yi) interpolate to find an approximate polynomial.
 */
+UniPolynom dceiDet(MultMatrix M) {
+    return dceiDet(UniMatrix(M));
+}
 
 UniPolynom dceiDet(UniMatrix M) {
     int n = M.degree() + 1;
-    // std::vector<float> X = genUniformArray(n, -(n)/2.0f, (n)/2.0f);
-    std::vector<double> X = genSpacedInteger(n, -(n-1)/2);
+    // Use small real sample points in [-1, 1] to keep determinant values bounded
+    std::vector<double> X(n);
+    for (int i = 0; i < n; i++)
+        X[i] = -1.0 + (2.0 * i) / (n - 1);
 
     std::vector<double> Y(n);
 
@@ -40,7 +45,14 @@ UniPolynom dceiComplexDet(MultMatrix M) {
 UniPolynom dceiComplexDet(UniMatrix M) {
     int n = M.degree() +1;
     int ceil = (n+1)/2;
-    std::vector<std::complex<double>> complex = genSpacedComplex(ceil, std::complex<double>(0,1));
+
+    // Use unit circle points: e^(i*pi*k/(ceil+1)) for k=1..ceil
+    // |y|=1 keeps determinant values bounded, avoiding interpolation blow-up
+    std::vector<std::complex<double>> complex;
+    for (int k = 1; k <= ceil; k++) {
+        double theta = M_PI * k / (ceil + 1);
+        complex.push_back(std::exp(std::complex<double>(0.0, theta)));
+    }
 
     std::vector<std::complex<double>> X, Y;
 

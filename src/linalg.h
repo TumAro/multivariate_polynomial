@@ -120,6 +120,7 @@ UniPolynom cofactor(const UniMatrix& M, int row, int col);
 MultPolynom determinant(const MultMatrix& M);
 MultPolynom cofactor(const MultMatrix& M, int row, int col);
 double determinant(const NumericMatrix& M);
+double determinantLU(const NumericMatrix& M);
 double cofactor(const NumericMatrix& M, int row, int col);
 std::complex<double> determinant(const ComplexMatrix& M);
 std::complex<double> determinantLU(const ComplexMatrix& M);
