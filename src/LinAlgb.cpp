@@ -1,5 +1,22 @@
 #include "linalg.h"
 
+// shape
+std::vector<int> UniMatrix::shape() const {
+    return {this->rows, this->cols};
+}
+
+std::vector<int> MultMatrix::shape() const {
+    return {this->rows, this->cols};
+}
+
+std::vector<int> NumericMatrix::shape() const {
+    return {this->rows, this->cols};
+}
+
+std::vector<int> ComplexMatrix::shape() const {
+    return {this->rows, this->cols};
+}
+
 //private func
 void UniMatrix::_check_square() const {
     if (rows != cols) {

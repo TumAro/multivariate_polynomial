@@ -78,6 +78,10 @@ int main() {
     M.print(); std::cout << "\n";
     N.print(); std::cout << "\n";
     MultMatrix sixth_sylv = sylvesterMat(M, N);
+    for (auto i : sixth_sylv.shape()) {
+        std::cout << i << ", ";
+    }
+    std::cout <<"\n";
     UniPolynom resultant = dceiComplexDet(sixth_sylv);
     std::cout << "determinant: ";
     resultant.print();

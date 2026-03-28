@@ -19,6 +19,7 @@ class MultMatrix;
 class UniMatrix {
 public:
     int rows, cols;
+    std::vector<int> shape() const;
     int d = -1;
     std::vector<std::vector<UniPolynom>> matrix;
     std::vector<std::vector<int>> degree_matrix;
@@ -52,6 +53,8 @@ public:
     std::vector<std::vector<MultPolynom>> matrix;
     std::vector<std::vector<int>> degree_matrix;
 
+    std::vector<int> shape() const;
+
     // Constructor
     MultMatrix(int r, int c);                           // OLD - keep for compatibility (creates 1-var, deg-0 polys)
     MultMatrix(int r, int c, int vars, int degree);     // NEW - recommended (all cells same structure)
@@ -79,6 +82,7 @@ private:
 class NumericMatrix {
     public:
     int rows, cols;
+    std::vector<int> shape() const;
     std::vector<std::vector<double>> matrix;
     NumericMatrix(int r, int c);
     
@@ -98,6 +102,7 @@ class NumericMatrix {
 class ComplexMatrix {
     public:
     int rows, cols;
+    std::vector<int> shape() const;
     std::vector<std::vector<std::complex<double>>> matrix;
     ComplexMatrix(int r, int c);
     
