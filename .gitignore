@@ -3,6 +3,7 @@
 .env
 .env.*
 CLAUDE.md
+.claude
 *.pdf
 
 /latex
