@@ -30,6 +30,7 @@ public:
     float operator[](int n) const;
     float operator()(float x) const;
     std::complex<double> operator()(std::complex<double> x) const;
+    std::vector<float> getCoeffs() const { return coeffs; }
 
     UniPolynom& operator=(const std::vector<float>& vect);
 
@@ -90,3 +91,7 @@ public:
 MultPolynom operator+(float f, const MultPolynom& P2);
 MultPolynom operator-(float f, const MultPolynom& P2);
 MultPolynom operator*(float f, const MultPolynom& P2);
+
+
+// Finding Roots
+std::vector<std::complex<double>> roots(const UniPolynom& P);

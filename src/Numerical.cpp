@@ -1,4 +1,5 @@
 #include "linalg.h"
+#include <gsl/gsl_poly.h>
 
 NumericMatrix::NumericMatrix(int r, int c) : rows(r), cols(c) {
     matrix.resize(r, std::vector<double>(c));
@@ -279,4 +280,26 @@ UniPolynom newtonInterpolationComplex(const std::vector<std::complex<double>>& X
     }
 
     return UniPolynom(real_coeffs);
+}
+
+
+// Root Finding methods
+std::vector<std::complex<double>> roots(const UniPolynom& P) {
+    auto c = P.getCoeffs();
+    std::vector<double> coeffs(c.begin(), c.end());
+    int n = P.degree();
+
+    std::vector<double> z(n*2);
+
+    // * GSL solver
+    gsl_poly_complex_workspace* w = gsl_poly_complex_workspace_alloc(n+1);
+    gsl_poly_complex_solve(coeffs.data(), n+1, w, z.data());
+    gsl_poly_complex_workspace_free(w);
+
+    std::vector<std::complex<double>> result(n);
+    for (int i = 0; i < n; i++) {
+        result[i] = std::complex<double> (z[i*2], z[i*2 + 1]);
+    }
+
+    return result;
 }

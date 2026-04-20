@@ -53,4 +53,9 @@ int main() {
     // final = Res_t2(eq1, res1)  ->  polynomial in t1
     UniPolynom final_poly = dceiComplexDet(sylvesterMat(eq1s, res1s));
     std::cout << "final: "; final_poly.print(); std::cout << "\n";
+
+    auto r = roots(final_poly);
+    std::cout << "roots:\n";
+    for (auto& root : r)
+        std::cout << "  " << root.real() << " + " << root.imag() << "i\n";
 }
