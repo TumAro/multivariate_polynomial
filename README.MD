@@ -7,5 +7,17 @@ sudo apt install g++ -y
 
 Make sure gsl is installed.
 
+## Build
+```bash
+mkdir build && cd build
+cmake .. -DCMAKE_BUILD_TYPE=Debug
+make
+```
+
 ## TEST
-to test the code, just run `test.sh` from your shell. Make sure you have g++ installed.
+to test the code, just run the following from your shell:
+```bash
+cd build
+./test_case
+./test_gsl
+```
