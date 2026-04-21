@@ -287,7 +287,12 @@ UniPolynom newtonInterpolationComplex(const std::vector<std::complex<double>>& X
 std::vector<std::complex<double>> roots(const UniPolynom& P) {
     auto c = P.getCoeffs();
     std::vector<double> coeffs(c.begin(), c.end());
-    int n = P.degree();
+
+    // ! hardcoded epsilon — revisit with proper tolerance strategy
+    while (coeffs.size() > 1 && std::abs(coeffs.back()) < 1e-10)
+        coeffs.pop_back();
+
+    int n = coeffs.size() - 1;
 
     std::vector<double> z(n*2);
 

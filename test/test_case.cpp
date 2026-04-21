@@ -58,4 +58,31 @@ int main() {
     std::cout << "roots:\n";
     for (auto& root : r)
         std::cout << "  " << root.real() << " + " << root.imag() << "i\n";
+
+    double eps = 1e-6;
+    std::cout << "\nsolutions (x, y, z):\n";
+    for (auto& xr : r) {
+        if (std::abs(xr.imag()) > eps) continue;
+        double x = xr.real();
+
+        MultPolynom res1_at_x = res1.partialEval(0, x);
+        UniPolynom poly_y(res1_at_x);
+        auto y_roots = roots(poly_y);
+
+        for (auto& yr : y_roots) {
+            if (std::abs(yr.imag()) > eps) continue;
+            double y = yr.real();
+
+            MultPolynom eq2_at_x  = eq2.partialEval(1, x);
+            MultPolynom eq2_at_xy = eq2_at_x.partialEval(1, y);
+            UniPolynom poly_z(eq2_at_xy);
+            auto z_roots = roots(poly_z);
+
+            for (auto& zr : z_roots) {
+                if (std::abs(zr.imag()) > eps) continue;
+                double z = zr.real();
+                std::cout << "  x=" << x << "  y=" << y << "  z=" << z << "\n";
+            }
+        }
+    }
 }

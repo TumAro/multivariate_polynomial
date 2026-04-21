@@ -18,5 +18,5 @@ add_library(poly_lib
 target_include_directories(poly_lib PUBLIC src/)
 target_link_libraries(poly_lib PUBLIC GSL::gsl GSL::gslcblas)
 
-add_executable(mult test/mult.cpp)                                                 
-target_link_libraries(mult PRIVATE poly_lib)
+add_executable(test_case test/test_case.cpp)                                                 
+target_link_libraries(test_case PRIVATE poly_lib)
