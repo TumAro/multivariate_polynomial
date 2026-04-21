@@ -332,4 +332,9 @@ int main() {
     Log("TEST: coeff(var_idx, exp) vs coeff({exp})");
     evalTest.coeff({1}).print();   // fix x=1 → should give 3 + 5y
     evalTest.coeff(0, 1).print();  // same result
+
+    Log("TEST: partialEval - p(x,y) = 1 + 3x + 2y + 5xy, eval at x=2");
+    // Expected: 1 + 6 + (2 + 10)y = 7 + 12y
+    MultPolynom pe = evalTest.partialEval(0, 2.0);
+    pe.print();   // should show 7 + 12y
 }

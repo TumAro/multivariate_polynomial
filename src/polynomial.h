@@ -74,6 +74,7 @@ public:
     float  operator[](std::vector<int> exp) const;
     MultPolynom coeff(std::vector<int> partial) const;
     MultPolynom coeff(int var_idx, int exponent) const;
+    MultPolynom partialEval(int var_idx, double val) const;
     int numVars() const { return vars; }
 
     //algebraic operators

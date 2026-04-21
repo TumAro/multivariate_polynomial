@@ -111,6 +111,16 @@ std::complex<double> MultPolynom::operator()(std::vector<std::complex<double>> v
     return result;
 }
 
+MultPolynom MultPolynom::partialEval(int var_idx, double val) const {
+    MultPolynom result(vars-1,deg);
+    
+    for (int i = 0; i <= deg; i++) {
+        result = result + coeff(var_idx, i) * (float)pow(val, i);
+    }
+
+    return result;
+}
+
 // index to exp 
 std::vector<int> MultPolynom::index2exp(int idx) const {
     std::vector<int> indices(this->vars);
