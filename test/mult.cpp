@@ -328,4 +328,8 @@ int main() {
     Log("=========================================");
     Log("ALL TESTS COMPLETED!");
     Log("=========================================");
+
+    Log("TEST: coeff(var_idx, exp) vs coeff({exp})");
+    evalTest.coeff({1}).print();   // fix x=1 → should give 3 + 5y
+    evalTest.coeff(0, 1).print();  // same result
 }

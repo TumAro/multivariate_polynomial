@@ -161,6 +161,26 @@ MultPolynom MultPolynom::coeff(std::vector<int> partial) const {
     return result;
 }
 
+MultPolynom MultPolynom::coeff(int var_idx, int exponent) const {
+    int remaining = vars - 1;
+    MultPolynom result(remaining > 0 ? remaining : 1, remaining > 0 ? deg : 0);
+
+    for (int idx = 0; idx < (int)coeffs.size(); idx++) {
+        auto exp = index2exp(idx);
+
+        if (exp[var_idx] != exponent) continue;
+
+        std::vector<int> rem;
+        for (int i = 0; i < vars; i++)
+            if (i != var_idx)
+                rem.push_back(exp[i]);
+
+        if (rem.empty()) result.coeffs[0] = coeffs[idx];
+        else             result[rem]       = coeffs[idx];
+    }
+    return result;
+}
+
 float MultPolynom::operator[](std::vector<int> exp) const {
     int idx = 0;
     if ((int)exp.size() > vars) {
