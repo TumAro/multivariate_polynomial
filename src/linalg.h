@@ -136,4 +136,4 @@ UniPolynom dceiComplexDet(MultMatrix M);
 
 // Sylvester Matrix
 NumericMatrix sylvesterMat(const UniPolynom& F, const UniPolynom& G);
-MultMatrix sylvesterMat(const MultPolynom& F, const MultPolynom& G);
+MultMatrix sylvesterMat(const MultPolynom& F, const MultPolynom& G, int var_idx = 0);
