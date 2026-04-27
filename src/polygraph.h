@@ -54,5 +54,9 @@ class PolyGraph {
         NodeHandle backSolve(NodeHandle poly_h, NodeHandle roots_h, int var);
         void run();
 
+
+        // getter & setter methods
+        std::vector<std::complex<double>> getRoots(NodeHandle h) { return _nodes[h].roots; }
+
 };
 
