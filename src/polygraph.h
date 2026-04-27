@@ -4,6 +4,8 @@
 #include "linalg.h"
 #include "utils.h"
 
+#include <boost/variant2/variant.hpp>
+
 enum class DetMethod { COFACTOR, DCEI, DCEIC, LU };
 enum class NodeType {
     INPUT,
@@ -34,7 +36,7 @@ class PolyGraph {
             NodeType type;
             std::vector<NodeHandle> inputs;
             std::vector<int> var_list;
-            MultPolynom polynomial;
+            boost::variant2::variant<MultPolynom, UniPolynom> polynomial;
             std::vector<std::complex<double>> roots;
             int var_to_eliminate;
             bool dirty;

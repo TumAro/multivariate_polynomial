@@ -51,7 +51,13 @@ NodeHandle PolyGraph::solve(NodeHandle h) {
         throw std::runtime_error("ERR @ SOLVE: Not a polynomial in 1 variable");
     }
 
-    UniPolynom final_poly(_nodes[h].polynomial);
+    
+    UniPolynom final_poly;
+    if (boost::variant2::holds_alternative<UniPolynom>(_nodes[h].polynomial)) {
+        final_poly = boost::variant2::get<UniPolynom>(_nodes[h].polynomial);
+    } else {
+        final_poly = UniPolynom(boost::variant2::get<MultPolynom>(_nodes[h].polynomial));
+    }
     auto r = roots(final_poly);
 
     Node this_node;

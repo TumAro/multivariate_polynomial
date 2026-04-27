@@ -5,7 +5,11 @@ sudo apt install g++ -y
 
 **Additional Note:** for constant values I am using the character `@` for variable with exponent of 0.  
 
-Make sure gsl is installed.
+## Dependencies
+install the following
+```bash
+sudo apt install libboost-dev
+```
 
 ## Build
 ```bash
