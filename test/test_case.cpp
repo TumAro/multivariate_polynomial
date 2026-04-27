@@ -1,5 +1,6 @@
 #include "../src/polynomial.h"
 #include "../src/linalg.h"
+#include "../src/polygraph.h"
 
 int main() {
     // t1=x, t2=y, t3=z
@@ -39,50 +40,28 @@ int main() {
     MultPolynom eq2(3, 2);  eq2.set(std::vector<double>(c2,  c2  + 27));
     MultPolynom eq3(3, 2);  eq3.set(std::vector<double>(c3,  c3  + 27));
 
-    // res1 = Res_t3(eq2, eq3)  ->  polynomial in (t1, t2)
-    MultPolynom res1 = determinant(sylvesterMat(eq2, eq3));
+    PolySystemConfig cfg;
+    cfg.final_method = DetMethod::DCEIC;
+    PolyGraph graph(cfg);
 
-    // swap res1 from (pos0=t1, pos1=t2) to (pos0=t2, pos1=t1), trim to deg 4
-    MultPolynom res1s(2, 4);
-    for (int e0 = 0; e0 <= 4; e0++)
-        for (int e1 = 0; e1 <= 4; e1++)
-            res1s[{e1, e0}] = res1[{e0, e1}];
+    auto h1 = graph.input(eq1, {0, 1});      // t1, t2
+    auto h2 = graph.input(eq2, {2, 0, 1});   // t3, t1, t2
+    auto h3 = graph.input(eq3, {2, 0, 1});   // t3, t1, t2
 
-    MultPolynom eq1s(2, 2); eq1s.set(std::vector<double>(c1s, c1s + 9));
+    auto h4 = graph.eliminate(h2, h3, 2);    // eliminate t3 → result in {t1, t2}
+    auto h5 = graph.eliminate(h1, h4, 1);    // eliminate t2 → result in {t1}
 
-    // final = Res_t2(eq1, res1)  ->  polynomial in t1
-    UniPolynom final_poly = dceiComplexDet(sylvesterMat(eq1s, res1s));
-    std::cout << "final: "; final_poly.print(); std::cout << "\n";
+    auto h6 = graph.solve(h5);
 
-    auto r = roots(final_poly);
-    std::cout << "roots:\n";
-    for (auto& root : r)
-        std::cout << "  " << root.real() << " + " << root.imag() << "i\n";
+    auto r = graph.getRoots(h6);
 
     double eps = 1e-6;
-    std::cout << "\nsolutions (x, y, z):\n";
-    for (auto& xr : r) {
-        if (std::abs(xr.imag()) > eps) continue;
-        double x = xr.real();
 
-        MultPolynom res1_at_x = res1.partialEval(0, x);
-        UniPolynom poly_y(res1_at_x);
-        auto y_roots = roots(poly_y);
-
-        for (auto& yr : y_roots) {
-            if (std::abs(yr.imag()) > eps) continue;
-            double y = yr.real();
-
-            MultPolynom eq2_at_x  = eq2.partialEval(1, x);
-            MultPolynom eq2_at_xy = eq2_at_x.partialEval(1, y);
-            UniPolynom poly_z(eq2_at_xy);
-            auto z_roots = roots(poly_z);
-
-            for (auto& zr : z_roots) {
-                if (std::abs(zr.imag()) > eps) continue;
-                double z = zr.real();
-                std::cout << "  x=" << x << "  y=" << y << "  z=" << z << "\n";
-            }
-        }
+    std::cout << "roots:\n";
+    for (auto& root : r) {
+        if (std::abs(root.imag()) < eps)
+            std::cout << "  t1 = " << root.real() << "\n";
+        else
+            std::cout << "  t1 = " << root.real() << " + " << root.imag() << "i\n";
     }
 }
