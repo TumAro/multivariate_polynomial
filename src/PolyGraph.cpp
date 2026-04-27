@@ -21,6 +21,11 @@ NodeHandle PolyGraph::eliminate(NodeHandle a, NodeHandle b, int global_var) {
         }
     }
 
+    if (!boost::variant2::holds_alternative<MultPolynom>(_nodes[a].polynomial) ||
+        !boost::variant2::holds_alternative<MultPolynom>(_nodes[b].polynomial)) {
+        throw std::runtime_error("ERR @ ELIMINATE: node already holds UniPolynom — cannot eliminate further");
+    }
+
     if (var_index == -1) {
         throw std::runtime_error("ERR @ ELIMINATE: global_var not found in 1st Node's var_list");
     }
@@ -28,17 +33,34 @@ NodeHandle PolyGraph::eliminate(NodeHandle a, NodeHandle b, int global_var) {
         throw std::runtime_error("ERR @ ELIMINATE: 1st & 2nd node have different var_lists");
     }
     
-    MultMatrix SM = sylvesterMat(_nodes[a].polynomial, _nodes[b].polynomial, var_index);
+    Node this_node;
 
-    MultPolynom resultant = determinant(SM);
+    MultMatrix SM = sylvesterMat(
+        boost::variant2::get<MultPolynom>(_nodes[a].polynomial),
+        boost::variant2::get<MultPolynom>(_nodes[b].polynomial),
+        var_index
+    );
+    if (_nodes[a].var_list.size() == 2) {
+        switch (_config.final_method) {
+            case DetMethod::COFACTOR:
+                this_node.polynomial = determinant(SM);
+                break;
+            case DetMethod::DCEI:
+                this_node.polynomial = dceiDet(SM);
+                break;
+            case DetMethod::DCEIC:
+                this_node.polynomial = dceiComplexDet(SM);
+                break;
+        }
+    } else {
+        this_node.polynomial = determinant(SM);
+    }
 
     std::vector<int> new_var_list = _nodes[a].var_list;
     new_var_list.erase(new_var_list.begin() + var_index);
 
-    Node this_node;
     this_node.type = NodeType::ELIMINATE;
     this_node.var_list = new_var_list;
-    this_node.polynomial = resultant;
 
 
     _nodes.push_back(this_node);
@@ -67,3 +89,5 @@ NodeHandle PolyGraph::solve(NodeHandle h) {
     _nodes.push_back(this_node);
     return _nodes.size() - 1;
 }
+
+
