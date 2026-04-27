@@ -23,7 +23,7 @@ realitime    ==> performing in realtime?
 */
 struct PolySystemConfig {
     DetMethod final_method  = DetMethod::DCEI;
-    bool real_only          = true;
+    bool real_root          = true;
     double real_thresh      = 1e-6;
     bool realtime           = false;
 };
@@ -39,7 +39,7 @@ class PolyGraph {
             boost::variant2::variant<MultPolynom, UniPolynom> polynomial;
             std::vector<std::complex<double>> roots;
             int var_to_eliminate;
-            bool dirty;
+            bool dirty = false;
         };
 
         std::vector<Node> _nodes;
