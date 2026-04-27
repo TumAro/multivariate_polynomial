@@ -84,10 +84,24 @@ NodeHandle PolyGraph::solve(NodeHandle h) {
 
     Node this_node;
     this_node.type = NodeType::SOLVE;
-    this_node.roots = r;
+    
+    if ( _config.real_root ) {
+        std::vector<std::complex<double>> real_roots;
+        for (auto& r : r) {
+            if (std::abs(r.imag()) < _config.real_thresh)
+                real_roots.push_back(r);
+        }
+        this_node.roots = real_roots;
+    } else {
+        this_node.roots = r;
+    }
 
     _nodes.push_back(this_node);
     return _nodes.size() - 1;
 }
 
-
+// RUN
+void PolyGraph::run() {
+    // eager execution — all computation already done at node creation
+    // run() exists for API consistency, lazy execution pending
+}
