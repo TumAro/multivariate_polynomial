@@ -47,6 +47,19 @@ int factorial(int n) {
     return result;
 }
 
+int binomial(int n, int k) {
+    if (k < 0 || k > n) return 0;
+
+    int r = min(k, n-k);
+
+    int result = 1;
+    for (int i = 0; i < r; i++) {
+        result = result * (n-i) / (i+1);
+    }
+
+    return result;
+}
+
 std::vector<float> joinVectors(std::vector<float> vec1, std::vector<float> vec2) {
     int size1 = vec1.size();
     int size2 = vec2.size();

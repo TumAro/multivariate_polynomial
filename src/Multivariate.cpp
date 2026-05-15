@@ -7,7 +7,7 @@ MultPolynom::MultPolynom() : vars(1), deg(0) {
 
 // constructors
 MultPolynom::MultPolynom(int vars, int degree) : vars(vars), deg(degree) {
-    coeffs.resize(pow((degree+1), vars));
+    coeffs.resize(binomial(degree+vars, vars), 0.0f);
 }
 
 void MultPolynom::set(std::vector<double> coeff_vec) {
@@ -121,29 +121,46 @@ MultPolynom MultPolynom::partialEval(int var_idx, double val) const {
     return result;
 }
 
-// index to exp 
+// index to exp
 std::vector<int> MultPolynom::index2exp(int idx) const {
-    std::vector<int> indices(this->vars);
+    std::vector<int> indices(this->vars, 0);
+    int budget = this->deg;
+    int rem = idx;
 
-    int base = this->deg+1;
-    for (int i = 0; i < this->vars; i++) {
-        indices[i] = (idx / (int)pow(base, i)) % base;
+    for (int n = this->vars; n >= 2; n--) {
+        int k = 0;
+        while (rem >= binomial(budget - k + n - 1, n - 1)) {
+            rem -= binomial(budget - k + n - 1, n - 1);
+            k++;
+        }
+        indices[n-1] = k;
+        budget -= k;
     }
+    indices[0] = rem;
 
     return indices;
 }
 
 float& MultPolynom::operator[](std::vector<int> exp) {
-    int idx = 0;
-    if (exp.size() != vars) {
-            throw std::out_of_range("variable count do not match");
-        }
-    for (int i = 0; i < exp.size(); i++) {
-        if (exp[i] < 0 || exp[i] > deg) {
-            throw std::out_of_range("exponent exceeds degree");
-        }
-        idx += exp[i] * pow(deg+1, i);
+    if ((int)exp.size() != vars)
+        throw std::out_of_range("variable count does not match");
+
+    int total = 0;
+    for (int i = 0; i < (int)exp.size(); i++) {
+        if (exp[i] < 0) throw std::out_of_range("negative exponent");
+        total += exp[i];
     }
+    if (total > deg) throw std::out_of_range("total exponent exceeds degree");
+
+    int idx = 0;
+    int budget = deg;
+    for (int i = vars - 1; i >= 1; i--) {
+        int k = exp[i];
+        int n = i + 1;
+        idx += binomial(budget + n, n) - binomial(budget - k + n, n);
+        budget -= k;
+    }
+    idx += exp[0];
 
     return coeffs[idx];
 }
@@ -192,17 +209,29 @@ MultPolynom MultPolynom::coeff(int var_idx, int exponent) const {
 }
 
 float MultPolynom::operator[](std::vector<int> exp) const {
-    int idx = 0;
     if ((int)exp.size() > vars) {
         for (int i = vars; i < (int)exp.size(); i++)
-            if (exp[i] != 0) return 0.0;
+            if (exp[i] != 0) return 0.0f;
         exp.resize(vars);
     }
-    if (exp.size() != vars) return 0.0;
-    for (int i = 0; i < exp.size(); i++) {
-        if (exp[i] < 0 || exp[i] > deg) return 0.0;
-        idx += exp[i] * pow(deg+1, i);
+    if ((int)exp.size() != vars) return 0.0f;
+
+    int total = 0;
+    for (int i = 0; i < (int)exp.size(); i++) {
+        if (exp[i] < 0) return 0.0f;
+        total += exp[i];
     }
+    if (total > deg) return 0.0f;
+
+    int idx = 0;
+    int budget = deg;
+    for (int i = vars - 1; i >= 1; i--) {
+        int k = exp[i];
+        int n = i + 1;
+        idx += binomial(budget + n, n) - binomial(budget - k + n, n);
+        budget -= k;
+    }
+    idx += exp[0];
 
     return coeffs[idx];
 }

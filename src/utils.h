@@ -13,6 +13,7 @@ int min(int a, int b);
 
 double pow(double base, int exp);
 int factorial(int n);
+int binomial(int n, int k);
 
 std::vector<float> joinVectors(std::vector<float> vec1, std::vector<float> vec2);
 
