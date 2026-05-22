@@ -23,8 +23,8 @@ target_link_libraries(poly_lib PUBLIC
     Boost::boost
 )
 
-add_executable(test_case test/test_case.cpp)
-target_link_libraries(test_case PRIVATE poly_lib)
+add_executable(test_case_2 test/test_case_2.cpp)
+target_link_libraries(test_case_2 PRIVATE poly_lib)
 
 add_executable(test_mult test/mult.cpp)
 target_link_libraries(test_mult PRIVATE poly_lib)
