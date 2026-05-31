@@ -1,6 +1,8 @@
 #include "src/utils.h"
+#include <ostream>
 
 int main() {
+    std::cout << "hi" << std::endl;
     auto result = lexorderArray(2, 4);
     
     std::cout << "Generated sequences:" << std::endl;
