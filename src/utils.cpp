@@ -1,4 +1,10 @@
 #include "utils.h"
+#include "polynomial.h"
+#include <experimental/filesystem>
+#include <fstream>
+#include <iterator>
+#include <stdexcept>
+#include <string>
 
 void Log(std::string txt) {
     std::cout << txt << std::endl;
