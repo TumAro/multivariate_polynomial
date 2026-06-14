@@ -57,23 +57,19 @@ float MultPolynom::operator()(std::vector<float> vals) const {
     }
 
     float result = this->coeffs[0];
-    const int base = this->deg + 1;
 
     for (size_t i = 1; i < this->coeffs.size(); i++) {
         if (this->coeffs[i] == 0) continue;  // Early skip
 
         float monomial = 1.0f;
-        int idx_temp = i;
-
+        std::vector<int> exp = index2exp(i); // <- binomial decode
+        
         // Decode exponents on-the-fly without allocation
         for (int var_i = 0; var_i < this->vars; var_i++) {
-            int exp = idx_temp % base;
-            if (exp != 0) {  // Skip pow(x, 0) = 1
-                monomial *= pow(vals[var_i], exp);
-            }
-            idx_temp /= base;
+            if (exp[var_i] != 0)
+                monomial *= pow(vals[var_i], exp[var_i]);
         }
-
+        
         result += monomial * this->coeffs[i];
     }
 
@@ -88,21 +84,17 @@ std::complex<double> MultPolynom::operator()(std::vector<std::complex<double>> v
     }
 
     std::complex<double> result = (double)this->coeffs[0];
-    const int base = this->deg + 1;
 
     for (size_t i = 1; i < this->coeffs.size(); i++) {
         if (this->coeffs[i] == 0.0f) continue;  // Early skip
 
         std::complex<double> monomial = std::complex<double>(1.0, 0.0);
-        int idx_temp = i;
-
+        std::vector<int> exp = index2exp(i); // <- binomial decode
+        
         // Decode exponents on-the-fly without allocation
         for (int var_i = 0; var_i < this->vars; var_i++) {
-            int exp = idx_temp % base;
-            if (exp != 0) {  // Skip pow(x, 0) = 1
-                monomial *= std::pow(vals[var_i], exp);
-            }
-            idx_temp /= base;
+            if (exp[var_i] != 0)
+                monomial *= std::pow(vals[var_i], exp[var_i]);
         }
 
         result += monomial * (double)this->coeffs[i];

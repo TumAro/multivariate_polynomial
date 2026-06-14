@@ -67,6 +67,10 @@ public:
     void print() const;
     void expPrint() const;
     std::vector<int> index2exp(int idx) const;
+    bool isZero() const {
+        for (auto& c: coeffs) if (c!=0.0f) return false;
+        return true;
+    }
 
     float operator()(std::vector<float> vals) const;
     std::complex<double> operator()(std::vector<std::complex<double>> x) const;
