@@ -99,7 +99,8 @@ NumericMatrix sylvesterMat(const UniPolynom& F, const UniPolynom& G) {
 }
 
 MultMatrix sylvesterMat(const MultPolynom& F, const MultPolynom& G, int var_idx) {
-    int n = F.degree(); int m = G.degree();
+    int n = F.degree(); while (n > 0 && F.coeff(var_idx, n).isZero()) n--;
+    int m = G.degree(); while (n > 0 && G.coeff(var_idx, m).isZero()) m--;
     int entry_vars = F.numVars() - 1;
     MultMatrix SM(m+n, m+n, entry_vars > 0 ? entry_vars : 1, n);
 
