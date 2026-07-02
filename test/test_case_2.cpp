@@ -2,6 +2,8 @@
 #include "../src/linalg.h"
 #include "texts/poly1.cpp"
 #include "texts/poly2.cpp"
+#include <fstream>
+#include <iomanip>
 
 int main() {
     MultPolynom P1(2, 41);
@@ -17,17 +19,25 @@ int main() {
     UniPolynom R = dceiComplexDet(SM);
 
     std::cout << "resultant degree: " << R.degree() << std::endl;
-    auto r = roots(R);
+    std::ofstream f("resultant_coeffs.txt");
+    auto c = R.getCoeffs();
+    f << std::setprecision(9) << "{";
+    for (int i = 0; i < (int)c.size(); i++)
+        f << c[i] << (i+1 < (int)c.size() ? ", " : "");
+    f << "}";
+    f.close();
+    
+    // auto r = roots(R);
 
-    double e = 1e-6;
-    for (auto& root: r) {
-        if (std::abs(root.imag()) < e)
-            std::cout << "x = " << root.real() << "\n";
-        else
-            std::cout << "x = " << root.real() << " + " << root.imag() << "i\n";
-    }
+    // double e = 1e-6;
+    // for (auto& root: r) {
+    //     if (std::abs(root.imag()) < e)
+    //         std::cout << "x = " << root.real() << "\n";
+    //     else
+    //         std::cout << "x = " << root.real() << " + " << root.imag() << "i\n";
+    // }
 
-    auto shape = SM.shape();
-    std::cout << "shape: " << shape[0] << "x" << shape[1] << std::endl;
+    // auto shape = SM.shape();
+    // std::cout << "shape: " << shape[0] << "x" << shape[1] << std::endl;
 
 }
