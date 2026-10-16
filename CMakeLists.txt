@@ -39,3 +39,9 @@ target_link_libraries(poly_lib PUBLIC
 add_executable(sub_src test/submition/source.cpp)
 target_link_libraries(sub_src PRIVATE poly_lib)
 
+
+add_executable(sub_quartic test/submition/quartic_source.cpp)
+target_link_libraries(sub_quartic PRIVATE poly_lib)
+
+add_executable(sub_cubic test/submition/cubic_source.cpp)
+target_link_libraries(sub_cubic PRIVATE poly_lib)
