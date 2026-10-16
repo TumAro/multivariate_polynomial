@@ -38,12 +38,12 @@ Step 4: Store the determinant and the conujgate of the determinant of those matr
 Step 5: Using these (xi, yi) interpolate to find an approximate polynomial using the real part of the result.
 */
 
-UniPolynom dceiComplexDet(MultMatrix M) {
-    return dceiComplexDet(UniMatrix(M));
+UniPolynom dceiComplexDet(MultMatrix M, int d) {
+    return dceiComplexDet(UniMatrix(M), d);
 }
 
-UniPolynom dceiComplexDet(UniMatrix M) {
-    int n = M.degree() +1;
+UniPolynom dceiComplexDet(UniMatrix M, int d) {
+    int n = (d >= 0 ? d : M.degree()) +1;
     int ceil = (n+1)/2;
 
     // Use unit circle points: e^(i*pi*k/(ceil+1)) for k=1..ceil
@@ -55,7 +55,6 @@ UniPolynom dceiComplexDet(UniMatrix M) {
     }
 
     std::vector<std::complex<double>> X, Y;
-
     for (const auto& z : complex) {
 
         std::complex<double> det = determinant(M(z));

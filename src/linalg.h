@@ -131,8 +131,8 @@ UniPolynom newtonInterpolationComplex(const std::vector<std::complex<double>>& X
 
 // DCEI Determinants
 UniPolynom dceiDet(UniMatrix M);
-UniPolynom dceiComplexDet(UniMatrix M);
-UniPolynom dceiComplexDet(MultMatrix M);
+UniPolynom dceiComplexDet(UniMatrix M, int d = -1);
+UniPolynom dceiComplexDet(MultMatrix M, int d = -1);
 
 // Sylvester Matrix
 NumericMatrix sylvesterMat(const UniPolynom& F, const UniPolynom& G);
